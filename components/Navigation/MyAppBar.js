@@ -36,8 +36,8 @@ const MyAppBar = () => {
                     <Typography variant="h5" noWrap className={classes.navTitle}>
                         Dashboard 
                     </Typography>
-                    <Icon >notifications</Icon>
-                    <Icon className={classes.navIcon}>today</Icon>
+                    <Icon >today</Icon>
+                    <Icon className={classes.navIcon}>notifications</Icon>
                 </Toolbar>
             </AppBar> 
         </>

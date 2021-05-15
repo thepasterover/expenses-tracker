@@ -26,10 +26,11 @@ const useStyles = makeStyles((theme) => ({
 
 const appCard = ({number, balance, company, index}) => {
   const classes = useStyles()
+  const logo = company.replace(/\s+/g, '').toLowerCase()
     return (
       <>
         <Grid item xs={12} sm={8} md={4} >
-          <Card className={classes.root} elevation={4} style={{background: gradientStyles[index]}}>
+          <Card className={classes.root} elevation={8} style={{background: gradientStyles[index]}}>
             <CardContent>
               <Box pt={1}>
                 <Typography variant="subtitle2" style={{color: 'white'}}>
@@ -41,7 +42,7 @@ const appCard = ({number, balance, company, index}) => {
               </Typography>
               <Box mt={4} >
                 <Typography variant="subtitle2" style={{color: 'white'}}>
-                  {balance}
+                ₹{balance}
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={-1}>
@@ -50,8 +51,8 @@ const appCard = ({number, balance, company, index}) => {
                       Balance
                   </Typography>
                 </Box>
-                <Image src='/card_logos/mastercard.png' 
-                width="35" 
+                <Image src={`/card_logos/${logo}.png`} 
+                width={logo === 'mastercard' ? "30" : "50"} 
                 height="10"
                 />
                 <Box ml={1}>

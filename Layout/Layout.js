@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container'
 
 import AppBar from '@components/Navigation/MyAppBar'
 import Drawer from '@components/Navigation/MyDrawer'
+import BottomDrawer from '@components/Navigation/BottomDrawer'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing(3),
+      [theme.breakpoints.down('sm')]:{
+        marginBottom: '40px'
+      }
     },
 }));
 
@@ -30,7 +34,8 @@ const Layout = ({children}) => {
               <Container>
                 {children}
               </Container>
-      </main>
+        </main>
+      <BottomDrawer />
     </div>
     )
 }

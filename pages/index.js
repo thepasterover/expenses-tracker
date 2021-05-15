@@ -4,13 +4,15 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import Grid from '@material-ui/core/Grid'
 import Card from '../components/Dashboard/Card'
+import Transactions from '../components/Dashboard/Transactions/Transactions'
 
 const cards = [
-  {number: '4008 **** **** 7533', balance: '₹55,487', company: 'Master Card'},
-  {number: '4008 **** **** 7534', balance: '₹55,487', company: 'Master Card'},
-  {number: '4008 **** **** 7535', balance: '₹55,487', company: 'Master Card'},
+  {number: '4008 **** **** 7533', balance: '25,889', company: 'Visa'},
+  {number: '4875 **** **** 3432', balance: '55,487', company: 'Master Card'},
+  {number: '4565 **** **** 4342', balance: '42,643', company: 'Rupay'},
 ]
 
+// TODO: Setup Overflow for cards
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
@@ -32,6 +34,7 @@ export default function Home() {
           )
         })}
       </Grid>
+      <Transactions />
     </div>
   )
 }
