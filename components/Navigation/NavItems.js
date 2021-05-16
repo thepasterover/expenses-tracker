@@ -56,7 +56,7 @@ const NavItems = () => {
     return (
         <div className={classes.root}>
           <List component="nav">
-            {[{name: 'Dashboard', link: '/', icon: 'dashboard'}, {name: 'Transactions', link: '/posts', icon: 'credit_card'}, {name: 'Savings', link: '/posts', icon: 'savings'}, {name: 'Profile', link: '/posts', icon: 'portrait'}].map((text, index) => (
+            {[{name: 'Dashboard', link: '/', icon: 'dashboard'}, {name: 'Transactions', link: '/transactions', icon: 'credit_card'}, {name: 'Savings', link: '/posts', icon: 'savings'}, {name: 'Profile', link: '/posts', icon: 'portrait'}].map((text, index) => (
             <Box pt={4} key={text.name}>
                 <Link href={text.link} passHref>
                     <ListItem 

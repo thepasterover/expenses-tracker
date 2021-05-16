@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const navItems = [
   {name: 'Dashboard', link: '/', icon: 'dashboard'}, 
-  {name: 'Transactions', link: '/posts', icon: 'credit_card'}, 
+  {name: 'Transactions', link: '/transactions', icon: 'credit_card'}, 
   {name: 'Savings', link: '/posts', icon: 'savings'}, 
   {name: 'Profile', link: '/posts', icon: 'portrait'}
 ]

@@ -74,7 +74,7 @@ const TransactionCard = ({ category, count, amount}) => {
             </Box>
           </CardContent>
         </Card>
-        {transactions.map((t, index) => (<SubCards shouldHide={shouldHide} name={t.name} date={t.date.toString()} color={color} amount={t.amount} />))}
+        {transactions.map((t, index) => (<SubCards key={index} shouldHide={shouldHide} name={t.name} date={t.date.toString()} color={color} amount={t.amount} />))}
         
       </Box>
       
