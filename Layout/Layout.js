@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing(3),
       [theme.breakpoints.down('sm')]:{
-        marginBottom: '40px'
-      }
+        paddingBottom: theme.spacing(10)
+      },
     },
 }));
 

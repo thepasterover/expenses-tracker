@@ -47,10 +47,6 @@ const BottomDrawer = () => {
             {navItems.map((item, index) => (
                 <BottomNavigationAction key={index} icon={<Icon> {item.icon} </Icon>} label={item.name} onClick={() => onLink(item.link)}/>
             ))}
-            
-            {/* <BottomNavigationAction icon={<Icon> credit_card </Icon>} label="Transactions"/>
-            <BottomNavigationAction icon={<Icon> savings </Icon>} label="Savings" />
-            <BottomNavigationAction icon={<Icon> portrait </Icon>} label="Profile" /> */}
           </BottomNavigation>
         </Hidden>
         </>

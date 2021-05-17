@@ -30,7 +30,7 @@ const Transactions = () => {
             <Typography variant="h6">
               <strong>Transactions</strong>
             </Typography>
-            <Box display="flex" justifyContent="center">
+            {/* <Box display="flex" justifyContent="center">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DatePicker
                   variant="inline"
@@ -41,8 +41,8 @@ const Transactions = () => {
                   inputVariant="standard"
                 />
               </MuiPickersUtilsProvider>
-              {/* <Icon>expand_more</Icon> */}
-            </Box>
+              <Icon>expand_more</Icon>
+            </Box> */}
         </Box>
 
         {/* Main Content */}
