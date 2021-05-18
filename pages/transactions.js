@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const transactions = () => {
+const transactions = ({transactions}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false)
     return (
@@ -43,6 +44,19 @@ const transactions = () => {
             <AddDialog open={open} setOpen={setOpen} />
         </>
     )
+}
+
+export async function getServerSideProps(context) {
+    try{
+        const res = await axios.get('http://localhost:5000/api/transactions')
+        const transactions = res.data
+        console.log(transactions)
+        return {
+            props: { transactions }
+        }
+    } catch(err) {
+        console.log(err)
+    }
 }
 
 export default transactions
