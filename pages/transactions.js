@@ -6,8 +6,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 
-import Transactions from '@components/Transactions/Transactions'
-import AddDialog from '@components/Transactions/AddDialog'
+import Table from '@components/Transactions/Table'
+import Dialog from '@components/Transactions/Dialog'
+
+import { useSession, getSession } from 'next-auth/client'
 
 const rows = [
     {date: '4th Aug 7AM', name: 'Rent given to Landlord', category: 'Rents', payment_mode: 'Paytm', amount: 500},
@@ -37,17 +39,26 @@ const transactions = ({transactions}) => {
     const [open, setOpen] = useState(false)
     return (
         <>
-           <Transactions rows={rows} />
+           <Table rows={rows} />
            <Fab color="primary" aria-label="add" className={classes.root} onClick={() => setOpen(true)}>
                 <AddIcon />
             </Fab>
-            <AddDialog open={open} setOpen={setOpen} />
+            <Dialog open={open} setOpen={setOpen} />
         </>
     )
 }
 
 export async function getServerSideProps(context) {
     try{
+        const session = await getSession(context)
+        if (!session) {
+            return {
+                redirect: {
+                  destination: '/signin',
+                  permanent: false,
+                },
+              }
+        }
         const res = await axios.get('http://localhost:5000/api/transactions')
         const transactions = res.data
         console.log(transactions)

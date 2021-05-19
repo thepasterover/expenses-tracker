@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid'
 import Card from '../components/Dashboard/Card'
 import Transactions from '../components/Dashboard/Transactions/Transactions'
 
+import {signOut, getSession} from 'next-auth/client'
+
 const cards = [
   {number: '4008 **** **** 7533', balance: '25,889', company: 'Visa'},
   {number: '4875 **** **** 3432', balance: '55,487', company: 'Master Card'},
@@ -27,6 +29,7 @@ export default function Home() {
       <Head>
         <title>Expenses Tracker</title>
       </Head>
+      <button onClick={() => signOut()}>Signout</button>
       <Grid container className={classes.wrapper}>
         {cards.map((card, index) => {
           return (
@@ -37,4 +40,22 @@ export default function Home() {
       <Transactions />
     </div>
   )
+}
+
+
+export async function getServerSideProps(context) {
+  try {
+    const session = await getSession(context)
+    if (!session) {
+        return {
+            redirect: {
+              destination: '/signin',
+              permanent: false,
+            },
+          }
+    }
+    return { props: { } }
+  } catch(err) {
+    console.log(err)
+  }
 }

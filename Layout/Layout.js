@@ -7,7 +7,7 @@ import AppBar from '@components/Navigation/MyAppBar'
 import Drawer from '@components/Navigation/MyDrawer'
 import BottomDrawer from '@components/Navigation/BottomDrawer'
 
-import { signIn, signOut } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,6 +27,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = ({children}) => {
     const classes = useStyles();
+    const [ session, loading ] = useSession()
+    if (loading) return null
+
+    if(!loading && !session){
+      return (
+        <main className={classes.content}>
+          <Container>
+            {children}
+          </Container>
+        </main>
+      )
+    }
+
     return (
         <div className={classes.root}>
         <AppBar />
