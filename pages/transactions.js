@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 import Table from '@components/Transactions/Table'
 import Dialog from '@components/Transactions/Dialog'
 
-import { useSession, getSession } from 'next-auth/client'
+import { getSession } from 'next-auth/client'
 
 const rows = [
     {date: '4th Aug 7AM', name: 'Rent given to Landlord', category: 'Rents', payment_mode: 'Paytm', amount: 500},
@@ -59,7 +59,7 @@ export async function getServerSideProps(context) {
                 },
               }
         }
-        const res = await axios.get('http://localhost:5000/api/transactions')
+        const res = await axios.get('http://localhost:5000/api/user/transactions')
         const transactions = res.data
         console.log(transactions)
         return {

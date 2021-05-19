@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import Image from 'next/image'
+import Head from 'next/head'
 
 import {  signIn, getSession } from 'next-auth/client'
 import { Button, Divider, Grid, TextField, Typography } from '@material-ui/core'
@@ -16,6 +17,9 @@ const signin = () => {
     } 
     return (
       <>
+        <Head>
+          <title>Sign In - Expenses Tracker</title>
+        </Head>
         <Grid 
         container
         spacing={6} 
@@ -24,7 +28,7 @@ const signin = () => {
         justify="space-between"
         >
           <Grid item md={6} sm={12} >
-            <Box pt={12}>
+            <Box pt={{xs: 2, md: 10}}>
               <Image 
               src='/financially_independent.jpg'
               height="435"
@@ -34,7 +38,7 @@ const signin = () => {
           </Grid>
           <Divider />
           <Grid item md={6} sm={12} align="center" >
-            <Box pt={10}>
+            <Box pt={{xs: 0, md: 8}}>
               <Box p={4}>
                 <Box mb={1}>
                 <Typography variant="h4">
@@ -72,7 +76,6 @@ const signin = () => {
                 >Sign In</Button>
                 <Button style={{color: '#1976d2'}} size="small" inputprops={{style: {textTransform: 'capitalize'}}}>Forgot your password?</Button>
               </Box>
-              {/* <button onClick={() => signIn('credentials', {user: 'hello'})}>Sign in</button> */}
               </Box>
           </Grid>
         </Grid>
