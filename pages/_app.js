@@ -7,8 +7,9 @@ import theme from '../theme';
 import Layout from '../layout/Layout';
 
 import { Provider } from 'next-auth/client'
+import { wrapper } from '../store/store'
 
-export default function MyApp(props) {
+const MyApp = (props) => {
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
@@ -42,3 +43,5 @@ MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
 };
+
+export default wrapper.withRedux(MyApp)
