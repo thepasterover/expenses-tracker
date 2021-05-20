@@ -1,3 +1,5 @@
+import React, { useState } from 'react'
+
 import { makeStyles } from '@material-ui/core/styles'
 
 import Box from'@material-ui/core/Box'
@@ -10,6 +12,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import TablePagination from '@material-ui/core/TablePagination'
 
 
 const transactionIcons = [
@@ -31,6 +34,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Transactions = ({ rows }) => {
     const classes = useStyles()
+    const [ page, setPage ] = useState(0)
+    const [ rowsPerPage, setRowsPerPage ] = useState(10)
+
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
+
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    }
+
     return (
       <>
         <TableContainer>
@@ -43,7 +55,9 @@ const Transactions = ({ rows }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => {
+              {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
                 const transaction = transactionIcons.find(t => row.category.toLowerCase() === t.category.toLowerCase())
                 const {color, icon} = transaction
                 return (
@@ -68,10 +82,22 @@ const Transactions = ({ rows }) => {
                 </TableRow>
               )
               })}
-              
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={false}
+          count={100}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onChangePage={handleChangePage} 
+        />
+
       </>
     )
 }

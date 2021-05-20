@@ -61,12 +61,11 @@ export async function getServerSideProps(context) {
         }
         const res = await axios.get('http://localhost:5000/api/user/transactions')
         const transactions = res.data
-        console.log(transactions)
         return {
             props: { transactions }
         }
     } catch(err) {
-        console.log(err)
+        return { props: {} }
     }
 }
 

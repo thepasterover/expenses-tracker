@@ -12,9 +12,6 @@ import Box from '@material-ui/core/Box'
 const signin = () => {
     const [email, setEmail] = useState('') 
     const [password, setPassword] = useState('')
-    const submit = ({email, password}) => {
-      signIn('credentials', {email: email, password: password})
-    } 
     return (
       <>
         <Head>
@@ -71,7 +68,7 @@ const signin = () => {
                 <Button 
                 color="primary" 
                 variant="contained" 
-                onClick={() => submit('credentials', {email: email, password: password})}
+                onClick={() => signIn('credentials', {email: email, password: password})}
                 disableElevation
                 >Sign In</Button>
                 <Button style={{color: '#1976d2'}} size="small" inputprops={{style: {textTransform: 'capitalize'}}}>Forgot your password?</Button>
