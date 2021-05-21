@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,6 +10,10 @@ import Table from '@components/Transactions/Table'
 import Dialog from '@components/Transactions/Dialog'
 
 import { getSession } from 'next-auth/client'
+
+import { connect } from 'react-redux'
+
+import moment from 'moment'
 
 const rows = [
     {date: '4th Aug 7AM', name: 'Rent given to Landlord', category: 'Rents', payment_mode: 'Paytm', amount: 500},
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         margin: 0,
         top: 'auto',
         right: 40,
-        bottom: 40,
+        bottom: 70,
         [theme.breakpoints.down('sm')]:{
             bottom: 70,
         },
@@ -34,12 +38,35 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const transactions = ({transactions}) => {
+const transactions = ({transactions, date}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false)
+
+    const usePrevious = (value) => {
+        const ref = useRef();
+        useEffect(() => {
+          ref.current = value;
+        });
+        return ref.current;
+    }
+
+    const prevDate = usePrevious(date)
+
+    const formattedPrevDate = moment(prevDate).format('MMM YYYY')
+    const formattedDate = moment(date).format('MMM YYYY')
+
+    useEffect(() => {
+        console.log("did update")
+        console.log("PrevDate: " + formattedPrevDate)
+        console.log("Current Date: " + formattedDate)
+        if(formattedPrevDate !== formattedDate){
+          console.log("Changed")
+        }
+    }, [date])
+
     return (
         <>
-           <Table rows={rows} />
+           <Table rows={rows} date={formattedDate} />
            <Fab color="primary" aria-label="add" className={classes.root} onClick={() => setOpen(true)}>
                 <AddIcon />
             </Fab>
@@ -69,4 +96,8 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default transactions
+const mapStateToProps = (state) => ({
+    date: state.date.date,
+})
+
+export default connect(mapStateToProps)(transactions)

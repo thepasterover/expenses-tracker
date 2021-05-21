@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Transactions = ({ rows }) => {
+const Transactions = ({ rows, date }) => {
     const classes = useStyles()
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -45,6 +45,14 @@ const Transactions = ({ rows }) => {
 
     return (
       <>
+        <Box display="flex" justifyContent="space-between" mx={2} mb={2}>
+          <Typography variant="h6">
+            Transactions
+          </Typography>
+          <Typography variant="h6">
+            {date}
+          </Typography>
+        </Box>
         <TableContainer>
           <Table>
             <TableHead>
@@ -91,7 +99,8 @@ const Transactions = ({ rows }) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={false}
+          component="div"
+          rowsPerPageOptions={[]}
           count={100}
           page={page}
           rowsPerPage={rowsPerPage}

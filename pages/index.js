@@ -1,3 +1,5 @@
+import React, { useEffect, useRef } from 'react'
+
 import Head from 'next/head'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -7,6 +9,10 @@ import Card from '../components/Dashboard/Card'
 import Transactions from '../components/Dashboard/Transactions/Transactions'
 
 import {getSession} from 'next-auth/client'
+
+import { connect } from 'react-redux'
+
+import moment from 'moment'
 
 const cards = [
   {number: '4008 **** **** 7533', balance: '25,889', company: 'Visa'},
@@ -22,8 +28,30 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function Home() {
+const Home = ({date}) => {
   const classes = useStyles()
+
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+  const prevDate = usePrevious(date)
+
+  const formattedPrevDate = moment(prevDate).format('MMM YYYY')
+  const formattedDate = moment(date).format('MMM YYYY')
+
+  useEffect(() => {
+    console.log("did update")
+    console.log("PrevDate: " + formattedPrevDate)
+    console.log("Current Date: " + formattedDate)
+    if(formattedPrevDate !== formattedDate){
+      console.log("Changed")
+    }
+  }, [date])
+
   return (
     <div>
       <Head>
@@ -36,13 +64,13 @@ export default function Home() {
           )
         })}
       </Grid>
-      <Transactions />
+      <Transactions date={formattedDate} />
     </div>
   )
 }
 
 
-export async function getServerSideProps(context) {
+export const getServerSideProps = async(context) => {
   try {
     const session = await getSession(context)
     if (!session) {
@@ -55,6 +83,12 @@ export async function getServerSideProps(context) {
     }
     return { props: { } }
   } catch(err) {
-    return {props: { }}
+    return {props: {}}
   }
 }
+
+const mapStateToProps = (state) => ({
+  date: state.date.date,
+})
+
+export default connect(mapStateToProps)(Home)

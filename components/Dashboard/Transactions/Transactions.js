@@ -8,7 +8,7 @@ import TransactionCard from '@components/Dashboard/Transactions/TransactionCard'
 
 
 
-const Transactions = () => {
+const Transactions = ({date}) => {
     const transactions = [
       {category: "Rents", count: 4, amount: 1800},
       {category: "Academics", count: 4, amount: 1800},
@@ -26,6 +26,9 @@ const Transactions = () => {
         <Box display="flex" justifyContent="space-between" mt={4} mb={-1} >
             <Typography variant="h6">
               <strong>Transactions</strong>
+            </Typography>
+            <Typography variant="h6">
+              {date.toString()}
             </Typography>
         </Box>
 
