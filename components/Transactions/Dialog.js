@@ -6,6 +6,9 @@ import {Box, Dialog, DialogTitle, DialogContent, TextField, Typography, Icon, Gr
 import { IconButton, Toolbar } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     fontSize: '30px',
@@ -36,6 +39,20 @@ const transactionIcons = [
 const AddDialog = ({open, setOpen}) => {
     const classes = useStyles()
     const [selectedCategory, setSelectedCategory] = useState(0)
+
+    const [date, setDate] = useState(new Date())
+    const [name, setName] = useState('')
+    const [amount, setAmount] = useState()
+    const [description, setDescription] = useState('')
+
+    const addTransaction = async() => {
+      try {
+        console.log(date, name, amount, description)
+      } catch(err) {
+        console.log(err)
+      }
+    }
+
     return (
         <>
           <Dialog fullScreen open={open}>
@@ -52,32 +69,43 @@ const AddDialog = ({open, setOpen}) => {
               </Box>
               <Box px={4}>
                 <DialogContent>
-                    <TextField  
-                      label="Date"
-                      fullWidth
-                      color="primary"
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DateTimePicker
+                    autoOk={true} 
+                    fullWidth
+                    variant="inline"
+                    label="Date"
+                    value={date}
+                    onChange={setDate}
                     />
-                  <Box mt={3}>
+                  </MuiPickersUtilsProvider>
+                  <Box mt={2}>
                     <TextField  
                       label="Name"
                       fullWidth
                       color="primary"
+                      value={name || ""}
+                      onChange={event => setName(event.target.value)}
                     />
                     </Box>
-                  <Box mt={3}>
+                  <Box mt={2}>
                     <TextField  
                       label="Amount"
                       fullWidth
                       color="primary"
+                      value={amount || ""}
+                      onChange={event => setAmount(event.target.value)}
                     />
                   </Box>
-                  <Box mt={3}>
+                  <Box mt={2}>
                     <TextField  
                       label="Description"
                       multiline
                       fullWidth
                       color="primary"
                       rows={2}
+                      value={description || ""}
+                      onChange={event => setDescription(event.target.value)}
                     />
                   </Box>
                 </DialogContent>
@@ -110,7 +138,7 @@ const AddDialog = ({open, setOpen}) => {
                   </Box>
                 </Box>
                 <Box className={classes.fab}>
-                  <Fab variant="extended" color="primary">
+                  <Fab variant="extended" color="primary" onClick={() => addTransaction()}>
                     Save
                   </Fab>
                 </Box>

@@ -52,7 +52,7 @@ const MyAppBar = ({date, setDate}) => {
                     <Typography variant="h5" noWrap className={classes.navTitle}>
                         Dashboard 
                     </Typography>
-                    <Icon onClick={() => setIsOpen(true)}>today</Icon>
+                    <Icon onClick={() => setIsOpen(true)} style={{cursor: 'pointer'}}>today</Icon>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
                             open={isOpen}
@@ -65,7 +65,7 @@ const MyAppBar = ({date, setDate}) => {
                             TextFieldComponent={() => null}
                         />
                     </MuiPickersUtilsProvider>
-                    <Icon className={classes.navIcon}>notifications</Icon>
+                    <Icon className={classes.navIcon} style={{cursor: 'pointer'}}>notifications</Icon>
                 </Toolbar>
             </AppBar> 
         </>
