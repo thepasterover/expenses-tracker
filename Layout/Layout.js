@@ -9,6 +9,8 @@ import BottomDrawer from '@components/Navigation/BottomDrawer'
 
 import { useSession } from 'next-auth/client'
 
+import { connect } from 'react-redux'
+
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',

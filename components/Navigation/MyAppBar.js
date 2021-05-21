@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -8,9 +8,15 @@ import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 import theme from 'theme';
 
-import { KeyboardDatePicker, DatePicker } from '@material-ui/pickers'
+import { DatePicker } from '@material-ui/pickers'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
+
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { setDate } from '../../store/date/action'
+
+import Button from '@material-ui/core/Button'
 
 const drawerWidth = 210;
 
@@ -29,10 +35,15 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const MyAppBar = () => {
+const MyAppBar = ({date, setDate}) => {
     const classes = useStyles();
-    const [selectedDate, handleDateChange] = useState(new Date())
+    const [selectedDate, setSelectedDate] = useState(new Date())
     const [isOpen, setIsOpen] = useState(false)
+    
+    const handleDateChange = (date) => {
+        setDate(date)
+    }
+
     return (
         <>
             <CssBaseline />
@@ -45,7 +56,7 @@ const MyAppBar = () => {
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
                             open={isOpen}
-                            autoOk={false}
+                            autoOk={true}
                             onClose={() => setIsOpen(false)}
                             disableToolbar
                             views={["year", "month"]}
@@ -61,4 +72,14 @@ const MyAppBar = () => {
     )
 }
 
-export default MyAppBar
+const mapStateToProps = (state) => ({
+    date: state.date.date,
+})
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      setDate: bindActionCreators(setDate, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAppBar)

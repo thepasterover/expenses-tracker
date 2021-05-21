@@ -5,6 +5,6 @@ export const dateActionTypes = {
 export const setDate = (selectedDate) => (dispatch) => {
     return dispatch({ 
         type: dateActionTypes.SET_DATE,
-        payload: selectedDate 
+        payload: selectedDate
     })
 }

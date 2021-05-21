@@ -7,9 +7,9 @@ const dateInitialState = {
 export default function reducer(state = dateInitialState, action) {
     switch(action.type) {
         case dateActionTypes.SET_DATE:
-            return {...state, dateInitialState: {
+            return Object.assign({}, state, {
                 date: action.payload
-            }}
+            })
         default:
             return state
         
