@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axiosInstance } from '../../axios'
 
 export const categoryActionTypes = {
     FETCH_CATEGORY_REQUESTS: 'FETCH_CATEGORY_REQUESTS',
@@ -12,9 +12,8 @@ export const fetchCategories = () => {
             dispatch({
                 type: categoryActionTypes.FETCH_CATEGORY_REQUESTS
             })
-            const res = await axios.get('https://jsonplaceholder.typicode.com/users')
+            const res = await axiosInstance.get('/auth/categories')
             const categories = res.data
-            console.log(categories)
             dispatch({
                 type: categoryActionTypes.FETCH_CATEGORY_SUCCESS,
                 payload: categories

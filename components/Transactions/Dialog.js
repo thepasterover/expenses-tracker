@@ -1,20 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
 import {Box, Dialog, DialogTitle, DialogContent, TextField, Typography, Icon, Grid, Fab} from '@material-ui/core'
-import { IconButton, Toolbar } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 
+import { axiosInstance } from '../../axios'
+
+import Category from './Categories/Category'
+
 const useStyles = makeStyles((theme) => ({
-  icon: {
-    fontSize: '30px',
-    cursor: 'pointer',
-    color: '#848E98'
-  },
   fab: {
     top: 'auto',
     right: 'auto',
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const transactionIcons = [
+const categoryIcons = [
   {icon: 'business', color: '#ff3378', category: "Rents"},
   {icon: 'school', color: '#68cfff', category: "Academics"},
   {icon: 'restaurant', color: '#69C393', category: "Food"},
@@ -36,21 +35,72 @@ const transactionIcons = [
   {icon: 'grid_view', color: '#F6C4C4', category: "Others"},
 ]
 
-const AddDialog = ({open, setOpen}) => {
+const AddDialog = ({open, setOpen, categories, token}) => {
     const classes = useStyles()
-    const [selectedCategory, setSelectedCategory] = useState(0)
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0)
 
     const [date, setDate] = useState(new Date())
-    const [name, setName] = useState('')
+    const [subject, setSubject] = useState('')
     const [amount, setAmount] = useState()
+    const [paymentMode, setPaymentMode] = useState('')
     const [description, setDescription] = useState('')
 
     const addTransaction = async() => {
       try {
-        console.log(date, name, amount, description)
+
+        const category = formattedCategories.find((f, index) => index === selectedCategoryIndex)
+
+        const res = await axiosInstance.post('/user/transactions/add', {
+          subject: subject,
+          date: date,
+          amount: amount,
+          paymentMode: paymentMode,
+          description: description,
+          categoryId: category._id
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+          } 
+        })
+
+        setOpen(false)
+        setSubject('')
+        setAmount()
+        setPaymentMode('')
+        setDescription('')
+
       } catch(err) {
         console.log(err)
       }
+    }
+
+    const formattedCategories = categoryIcons.map((t) => {
+      let category = categories.find(e => e.name === t.category.toLowerCase())
+      if(category) {
+        t._id = category._id
+      }
+      return t
+    })
+
+    let viewCatgories 
+    if(categories.length > 0){
+      viewCatgories = (
+        formattedCategories.map((c, index) => (
+          <Category
+          key={index}
+          index={index} 
+          setSelectedCategoryIndex={setSelectedCategoryIndex} 
+          selectedCategoryIndex={selectedCategoryIndex}
+          color={c.color}
+          icon={c.icon}
+          category={c.category}
+          />
+        ))
+      ) 
+    } else {
+      viewCatgories = <p>Loading Error</p>
     }
 
     return (
@@ -81,11 +131,11 @@ const AddDialog = ({open, setOpen}) => {
                   </MuiPickersUtilsProvider>
                   <Box mt={2}>
                     <TextField  
-                      label="Name"
+                      label="Subject"
                       fullWidth
                       color="primary"
-                      value={name || ""}
-                      onChange={event => setName(event.target.value)}
+                      value={subject || ""}
+                      onChange={event => setSubject(event.target.value)}
                     />
                     </Box>
                   <Box mt={2}>
@@ -95,6 +145,15 @@ const AddDialog = ({open, setOpen}) => {
                       color="primary"
                       value={amount || ""}
                       onChange={event => setAmount(event.target.value)}
+                    />
+                  </Box>
+                  <Box mt={2}>
+                    <TextField  
+                      label="Payment Mode"
+                      fullWidth
+                      color="primary"
+                      value={ paymentMode || "" }
+                      onChange={event => setPaymentMode(event.target.value)}
                     />
                   </Box>
                   <Box mt={2}>
@@ -115,24 +174,7 @@ const AddDialog = ({open, setOpen}) => {
                   </Typography>
                   <Box mt={2}>
                     <Grid container>
-                      {transactionIcons.map((t, index) => ( 
-                        <Grid item key={index} xs={4} sm={2}>
-                          <Box p={3} display="flex" flexDirection="column" alignContent="center" alignItems="center">
-                            <Box onClick={() => setSelectedCategory(index)}>
-                              <Icon style={{ color: ( selectedCategory === index && t.color )}} className={classes.icon}>
-                                {t.icon}
-                              </Icon>
-                            </Box>
-                            <Box pt={1} >
-                              <Typography variant="body2" style={{color: ( selectedCategory !== index && '#848E98')}} component="div">
-                                <Box fontWeight="fontWeightBold">
-                                  {t.category}
-                                </Box>
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </Grid>
-                      ))}
+                        {viewCatgories}
                       
                     </Grid>
                   </Box>
@@ -151,10 +193,3 @@ const AddDialog = ({open, setOpen}) => {
 
 export default AddDialog
 
-// #TODO: Find Icons Ig
-// transactionIcons.map((t) => {
-//   let tempBool = categories.find(e => e.category === t.category.toLowerCase())
-//   if(tempBool) {
-//       t.id = tempBool.id
-//   }
-// })

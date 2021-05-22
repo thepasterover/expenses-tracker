@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 import Table from '@components/Transactions/Table'
 import Dialog from '@components/Transactions/Dialog'
 
-import { getSession } from 'next-auth/client'
+import { getSession, useSession } from 'next-auth/client'
 
 import { connect } from 'react-redux'
 
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const transactions = ({transactions, date, categoryData}) => {
+const transactions = ({transactions, date, categoryData, session}) => {
     
     if (categoryData.loading) return null
     
@@ -73,13 +73,11 @@ const transactions = ({transactions, date, categoryData}) => {
 
     return (
         <>
-            <p>{categoryData.categories[0].name}</p>
-            
            <Table rows={rows} date={formattedDate} />
            <Fab color="primary" aria-label="add" className={classes.root} onClick={() => setOpen(true)}>
                 <AddIcon />
             </Fab>
-            <Dialog open={open} setOpen={setOpen} />
+            <Dialog open={open} setOpen={setOpen} categories={categoryData.categories} token={session.token} />
         </>
     )
 }
@@ -102,13 +100,11 @@ export async function getServerSideProps(context) {
             }
         })
         const transactions = res.data
-        console.log(transactions)
         return {
-            props: { transactions }
+            props: { transactions, session }
         }
     } catch(err) {
         console.log("Error")
-        console.log(err)
         return { props: {} }
     }
 }
