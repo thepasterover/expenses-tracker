@@ -150,3 +150,11 @@ const AddDialog = ({open, setOpen}) => {
 }
 
 export default AddDialog
+
+// #TODO: Find Icons Ig
+// transactionIcons.map((t) => {
+//   let tempBool = categories.find(e => e.category === t.category.toLowerCase())
+//   if(tempBool) {
+//       t.id = tempBool.id
+//   }
+// })

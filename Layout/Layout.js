@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'
@@ -10,6 +10,9 @@ import BottomDrawer from '@components/Navigation/BottomDrawer'
 import { useSession } from 'next-auth/client'
 
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { fetchCategories } from '../store/category/action'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,11 +30,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Layout = ({children}) => {
+const Layout = ({children, fetchCategories}) => {
     const classes = useStyles();
     const [ session, loading ] = useSession()
+
+    useEffect(() => {
+      fetchCategories()
+    }, [])
+
+
     if (loading) return null
 
+    
     if(!loading && !session){
       return (
         <main className={classes.content}>
@@ -41,6 +51,8 @@ const Layout = ({children}) => {
         </main>
       )
     }
+
+    
 
     return (
         <div className={classes.root}>
@@ -57,4 +69,10 @@ const Layout = ({children}) => {
     )
 }
 
-export default Layout
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCategories: bindActionCreators(fetchCategories, dispatch),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Layout)

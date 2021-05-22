@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import Card from '../components/Dashboard/Card'
 import Transactions from '../components/Dashboard/Transactions/Transactions'
 
-import {getSession} from 'next-auth/client'
+import {getSession, signOut} from 'next-auth/client'
 
 import { connect } from 'react-redux'
 
@@ -57,6 +57,7 @@ const Home = ({date}) => {
       <Head>
         <title>Expenses Tracker</title>
       </Head>
+      <button onClick={signOut}>Sign out</button>
       <Grid container className={classes.wrapper}>
         {cards.map((card, index) => {
           return (

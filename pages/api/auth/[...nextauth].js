@@ -14,7 +14,7 @@ const options = {
                         password
                     })
                     if(user.data) {
-                        return user.data
+                        return  user.data
                     } else {
                         return null
                     }
@@ -25,6 +25,26 @@ const options = {
             }
         })
     ],
+    session: {
+        jwt: true
+    },
+    callbacks: {
+        jwt: async (token, user, account, profile, isNewUser) => {
+            //  "user" parameter is the object received from "authorize"
+            //  "token" is being send below to "session" callback...
+            //  ...so we set "user" param of "token" to object from "authorize"...
+            //  ...and return it...
+            user && (token.user = user);
+            return Promise.resolve(token)   // ...here
+        },
+        session: async (session, user, sessionToken) => {
+            //  "session" is current session object
+            //  below we set "user" param of "session" to value received from "jwt" callback
+            session.token = 'Bearer ' + user.user;
+            
+            return Promise.resolve(session)
+        }
+    },
     pages: {
         signIn: '/signin'
     }

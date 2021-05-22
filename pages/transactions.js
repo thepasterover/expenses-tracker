@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import { axiosInstance } from '../axios'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -38,9 +38,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const transactions = ({transactions, date}) => {
+const transactions = ({transactions, date, categoryData}) => {
+    
+    if (categoryData.loading) return null
+    
     const classes = useStyles();
     const [open, setOpen] = useState(false)
+
+    // TODO: Handle Categories Error case
+    
+
 
     const usePrevious = (value) => {
         const ref = useRef();
@@ -66,6 +73,8 @@ const transactions = ({transactions, date}) => {
 
     return (
         <>
+            <p>{categoryData.categories[0].name}</p>
+            
            <Table rows={rows} date={formattedDate} />
            <Fab color="primary" aria-label="add" className={classes.root} onClick={() => setOpen(true)}>
                 <AddIcon />
@@ -86,18 +95,27 @@ export async function getServerSideProps(context) {
                 },
               }
         }
-        const res = await axios.get('http://localhost:5000/api/user/transactions')
+        const res = await axiosInstance.get('/user/transactions', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': session.token,
+            }
+        })
         const transactions = res.data
+        console.log(transactions)
         return {
             props: { transactions }
         }
     } catch(err) {
+        console.log("Error")
+        console.log(err)
         return { props: {} }
     }
 }
 
 const mapStateToProps = (state) => ({
     date: state.date.date,
+    categoryData: state.category
 })
 
 export default connect(mapStateToProps)(transactions)
