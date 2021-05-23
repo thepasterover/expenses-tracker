@@ -7,7 +7,7 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 
 import Table from '@components/Transactions/Table'
-import Dialog from '@components/Transactions/Dialog/Dialog'
+import Dialog from '@components/Transactions/Dialog'
 
 import { getSession, useSession } from 'next-auth/client'
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         margin: 0,
         top: 'auto',
-        right: 50,
+        right: 40,
         bottom: 70,
         [theme.breakpoints.down('sm')]:{
             bottom: 70,
@@ -38,35 +38,42 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const usePrevious = (value) => {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-}
-
 const transactions = ({transactions, date, categoryData, session}) => {
+    
+    if (categoryData.loading) return null
+    
     const classes = useStyles();
     const [open, setOpen] = useState(false)
 
-    // let prevDate = usePrevious(date)
+    // TODO: Handle Categories Error case
+    
 
-    // useEffect(() => {
-    //     console.log("did update")
-    //     console.log("PrevDate: " + prevDate)
-    //     console.log("Current Date: " + date)
-    //     if(prevDate !== date){
-            
-    //       console.log("Changed")
-          
-    //     }
-    //     console.log(date)
-    // }, [date])
+
+    const usePrevious = (value) => {
+        const ref = useRef();
+        useEffect(() => {
+          ref.current = value;
+        });
+        return ref.current;
+    }
+
+    const prevDate = usePrevious(date)
+
+    const formattedPrevDate = moment(prevDate).format('MMM YYYY')
+    const formattedDate = moment(date).format('MMM YYYY')
+
+    useEffect(() => {
+        console.log("did update")
+        console.log("PrevDate: " + formattedPrevDate)
+        console.log("Current Date: " + formattedDate)
+        if(formattedPrevDate !== formattedDate){
+          console.log("Changed")
+        }
+    }, [date])
 
     return (
         <>
-           <Table rows={rows} date={date} />
+           <Table rows={rows} date={formattedDate} />
            <Fab color="primary" aria-label="add" className={classes.root} onClick={() => setOpen(true)}>
                 <AddIcon />
             </Fab>
@@ -86,13 +93,13 @@ export async function getServerSideProps(context) {
                 },
               }
         }
-        // const res = await axiosInstance.get('/user/transactions', {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': session.token,
-        //     }
-        // })
-        const transactions = "res.data"
+        const res = await axiosInstance.get('/user/transactions', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': session.token,
+            }
+        })
+        const transactions = res.data
         return {
             props: { transactions, session }
         }

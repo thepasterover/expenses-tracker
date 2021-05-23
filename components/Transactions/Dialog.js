@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -9,11 +9,9 @@ import CloseIcon from '@material-ui/icons/Close'
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns'
 
-import { axiosInstance } from '../../../axios'
+import { axiosInstance } from '../../axios'
 
-import Category from '../Categories/Category'
-import DialogTextField  from './DialogTextField'
-import { sub } from 'date-fns'
+import Category from './Categories/Category'
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -39,32 +37,19 @@ const categoryIcons = [
 
 const AddDialog = ({open, setOpen, categories, token}) => {
     const classes = useStyles()
-
-    //TODO: Setup Error Handling for Text Fields
-
-    const [errorText, setErrorText] = useState('')
-
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0)
+
     const [date, setDate] = useState(new Date())
     const [subject, setSubject] = useState('')
     const [amount, setAmount] = useState()
     const [paymentMode, setPaymentMode] = useState('')
     const [description, setDescription] = useState('')
-    
-
-    const stateAndHandlers = [
-      { label: "Subject", state: subject, handler: setSubject },
-      { label: "Amount", state: amount, handler: setAmount },
-      { label: "Payment Mode", state: paymentMode, handler: setPaymentMode },
-      { label: "Description", state: description, handler: setDescription }
-    ]
-
-    
 
     const addTransaction = async() => {
       try {
 
         const category = formattedCategories.find((f, index) => index === selectedCategoryIndex)
+
         const res = await axiosInstance.post('/user/transactions/add', {
           subject: subject,
           date: date,
@@ -105,8 +90,7 @@ const AddDialog = ({open, setOpen, categories, token}) => {
         formattedCategories.map((c, index) => (
           <Category
           key={index}
-          index={index}
-          errorText={errorText} 
+          index={index} 
           setSelectedCategoryIndex={setSelectedCategoryIndex} 
           selectedCategoryIndex={selectedCategoryIndex}
           color={c.color}
@@ -143,19 +127,46 @@ const AddDialog = ({open, setOpen, categories, token}) => {
                     label="Date"
                     value={date}
                     onChange={setDate}
-                    inputVariant="outlined"
                     />
                   </MuiPickersUtilsProvider>
-
-                  {stateAndHandlers.map((s, index) => (
-                    <DialogTextField 
-                    key={index}
-                    label={s.label}
-                    value={s.state}
-                    handler={s.handler}
+                  <Box mt={2}>
+                    <TextField  
+                      label="Subject"
+                      fullWidth
+                      color="primary"
+                      value={subject || ""}
+                      onChange={event => setSubject(event.target.value)}
                     />
-                  ))}
-
+                    </Box>
+                  <Box mt={2}>
+                    <TextField  
+                      label="Amount"
+                      fullWidth
+                      color="primary"
+                      value={amount || ""}
+                      onChange={event => setAmount(event.target.value)}
+                    />
+                  </Box>
+                  <Box mt={2}>
+                    <TextField  
+                      label="Payment Mode"
+                      fullWidth
+                      color="primary"
+                      value={ paymentMode || "" }
+                      onChange={event => setPaymentMode(event.target.value)}
+                    />
+                  </Box>
+                  <Box mt={2}>
+                    <TextField  
+                      label="Description"
+                      multiline
+                      fullWidth
+                      color="primary"
+                      rows={2}
+                      value={description || ""}
+                      onChange={event => setDescription(event.target.value)}
+                    />
+                  </Box>
                 </DialogContent>
                 <Box px={1} mt={3}>
                   <Typography variant="subtitle1">
@@ -164,6 +175,7 @@ const AddDialog = ({open, setOpen, categories, token}) => {
                   <Box mt={2}>
                     <Grid container>
                         {viewCatgories}
+                      
                     </Grid>
                   </Box>
                 </Box>
