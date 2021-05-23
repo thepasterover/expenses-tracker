@@ -1,14 +1,16 @@
 import { dateActionTypes } from './action'
 
+import moment from 'moment'
+
 const dateInitialState = {
-    date: new Date()
+    date: moment().format('MMM YYYY')
 }
 
 export default function reducer(state = dateInitialState, action) {
     switch(action.type) {
         case dateActionTypes.SET_DATE:
             return Object.assign({}, state, {
-                date: action.payload
+                date: moment(action.payload).format('MMM YYYY')
             })
         default:
             return state

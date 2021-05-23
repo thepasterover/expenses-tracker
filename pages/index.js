@@ -31,26 +31,26 @@ const useStyles = makeStyles((theme) => ({
 const Home = ({date}) => {
   const classes = useStyles()
 
-  function usePrevious(value) {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
-  const prevDate = usePrevious(date)
+  // function usePrevious(value) {
+  //   const ref = useRef();
+  //   useEffect(() => {
+  //     ref.current = value;
+  //   });
+  //   return ref.current;
+  // }
+  // const prevDate = usePrevious(date)
 
-  const formattedPrevDate = moment(prevDate).format('MMM YYYY')
-  const formattedDate = moment(date).format('MMM YYYY')
+  // const formattedPrevDate = moment(prevDate).format('MMM YYYY')
+  // const formattedDate = moment(date).format('MMM YYYY')
 
-  useEffect(() => {
-    console.log("did update")
-    console.log("PrevDate: " + formattedPrevDate)
-    console.log("Current Date: " + formattedDate)
-    if(formattedPrevDate !== formattedDate){
-      console.log("Changed")
-    }
-  }, [date])
+  // useEffect(() => {
+  //   console.log("did update")
+  //   console.log("PrevDate: " + prevDate)
+  //   console.log("Current Date: " + date)
+  //   if(date !== prevDate){
+  //     console.log("Changed")
+  //   }
+  // }, [date])
 
   return (
     <div>
@@ -65,7 +65,7 @@ const Home = ({date}) => {
           )
         })}
       </Grid>
-      <Transactions date={formattedDate} />
+      <Transactions date={date} />
     </div>
   )
 }
