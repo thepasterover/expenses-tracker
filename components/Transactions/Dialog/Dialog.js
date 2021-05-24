@@ -26,30 +26,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const categoryIcons = [
-  {icon: 'business', color: '#ff3378', category: "Rents"},
-  {icon: 'school', color: '#68cfff', category: "Academics"},
-  {icon: 'restaurant', color: '#69C393', category: "Food"},
-  {icon: 'flight_takeoff', color: '#fdb574', category: "Travel"},
-  {icon: 'play_circle_filled', color: '#ffe100', category: "Entertainment"},
-  {icon: 'local_mall', color: '#e4a5fd', category: "Shopping"},
-  {icon: 'medical_services', color: 'red', category: "Medicines"},
-  {icon: 'grid_view', color: '#F6C4C4', category: "Others"},
-]
-
-const AddDialog = ({open, setOpen, categories, token}) => {
+const AddDialog = ({open, setOpen, categories, token, data}) => {
     const classes = useStyles()
 
     //TODO: Setup Error Handling for Text Fields
 
     const [errorText, setErrorText] = useState('')
 
-    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0)
-    const [date, setDate] = useState(new Date())
-    const [subject, setSubject] = useState('')
-    const [amount, setAmount] = useState()
-    const [paymentMode, setPaymentMode] = useState('')
-    const [description, setDescription] = useState('')
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState((data.categoryIndex || 0))
+    const [date, setDate] = useState((data.date || new Date()))
+    const [subject, setSubject] = useState((data.subject || ''))
+    const [amount, setAmount] = useState((data.amount || null))
+    const [paymentMode, setPaymentMode] = useState((data.paymentMode || ''))
+    const [description, setDescription] = useState(( data.description || ''))
     
 
     const stateAndHandlers = [
@@ -59,12 +48,10 @@ const AddDialog = ({open, setOpen, categories, token}) => {
       { label: "Description", state: description, handler: setDescription }
     ]
 
-    
-
     const addTransaction = async() => {
       try {
 
-        const category = formattedCategories.find((f, index) => index === selectedCategoryIndex)
+        const category = categories.find((f, index) => index === selectedCategoryIndex)
         const res = await axiosInstance.post('/user/transactions/add', {
           subject: subject,
           date: date,
@@ -91,18 +78,34 @@ const AddDialog = ({open, setOpen, categories, token}) => {
       }
     }
 
-    const formattedCategories = categoryIcons.map((t) => {
-      let category = categories.find(e => e.name === t.category.toLowerCase())
-      if(category) {
-        t._id = category._id
-      }
-      return t
-    })
+    const editTransaction = async () => {
+      try {
+        setOpen(false)
+        const category = categories.find((f, index) => index === selectedCategoryIndex)
+        const res = await axiosInstance.post('/user/transactions/edit', {
+          transactionId: data.id,
+          subject: subject,
+          date: date,
+          amount: amount,
+          paymentMode: paymentMode,
+          description: description,
+          categoryId: category._id
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjBhNTBiYmU1ZjA0OTMwZjkwZmYzZmExIiwiaWF0IjoxNjIxNzgwNjQwLCJleHAiOjE2MjIwMzk4NDB9.PvffwLdMLIm5DgYHilBJkdhSDFh5f2LqAcyuCWpdi5U',
+          } 
+        })
+      } catch(err) {
+        console.log(err)
+      } 
+    }
 
     let viewCatgories 
     if(categories.length > 0){
       viewCatgories = (
-        formattedCategories.map((c, index) => (
+        categories.map((c, index) => (
           <Category
           key={index}
           index={index}
@@ -119,13 +122,26 @@ const AddDialog = ({open, setOpen, categories, token}) => {
       viewCatgories = <p>Loading Error</p>
     }
 
+    let viewBtn
+    data.type.toLowerCase() === 'add' ? 
+    viewBtn = (
+      <Fab variant="extended" color="primary" onClick={() => addTransaction()}>
+        Add
+      </Fab>
+    ) :
+    viewBtn = (
+      <Fab variant="extended" color="primary" onClick={() => editTransaction()}>
+        Edit
+      </Fab>
+    )
+
     return (
         <>
           <Dialog fullScreen open={open}>
             <Box>
               <Box display="flex" alignItems="center" justifyContent="space-between" px={1}>
                 <Box>
-                  <DialogTitle id="form-dialog-title">Add Transaction</DialogTitle>
+                  <DialogTitle id="form-dialog-title">{data.type} Transaction</DialogTitle>
                 </Box>
                 <Box>
                   <IconButton onClick={() => setOpen(false)}>
@@ -168,9 +184,7 @@ const AddDialog = ({open, setOpen, categories, token}) => {
                   </Box>
                 </Box>
                 <Box className={classes.fab}>
-                  <Fab variant="extended" color="primary" onClick={() => addTransaction()}>
-                    Save
-                  </Fab>
+                  {viewBtn}
                 </Box>
               </Box>
             </Box>

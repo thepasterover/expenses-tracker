@@ -16,18 +16,6 @@ import TablePagination from '@material-ui/core/TablePagination'
 
 import Rows from './TableRows/Rows'
 
-
-const categoryIcons = [
-  {icon: 'business', color: '#ff3378', category: "Rents"},
-  {icon: 'school', color: '#68cfff', category: "Academics"},
-  {icon: 'restaurant', color: '#69C393', category: "Food"},
-  {icon: 'flight_takeoff', color: '#fdb574', category: "Travel"},
-  {icon: 'play_circle_filled', color: '#ffe100', category: "Entertainment"},
-  {icon: 'local_mall', color: '#e4a5fd', category: "Shopping"},
-  {icon: 'medical_services', color: 'red', category: "Medicines"},
-  {icon: 'grid_view', color: '#F6C4C4', category: "Others"}
-]
-
 const useStyles = makeStyles((theme) => ({
   root: {
     borderBottom: 'none'
@@ -44,16 +32,6 @@ const Transactions = ({ rows, date, categories }) => {
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     }
-
-    const formattedCategories = categoryIcons.map((t) => {
-      let category = categories.find(e => e.name === t.category.toLowerCase())
-      if(category) {
-        t._id = category._id
-      }
-      return t
-    })
-
-    
 
     return (
       <>
@@ -77,7 +55,7 @@ const Transactions = ({ rows, date, categories }) => {
             <TableBody>
               <Rows 
                 transactions={rows}
-                formattedCategories={formattedCategories}
+                categories={categories}
                 page={page}
                 rowsPerPage={rowsPerPage}
                 classRoot={classes.root}

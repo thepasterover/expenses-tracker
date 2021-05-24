@@ -2,14 +2,14 @@ import React from 'react'
 
 import Row from './Row'
 
-const Rows = ({transactions, formattedCategories, page, rowsPerPage, classRoot}) => {
+const Rows = ({transactions, categories, page, rowsPerPage, classRoot}) => {
     return (
       <>
-        {(transactions.length >= 0 || formattedCategories >= 0) ?
+        {(transactions.length >= 0 || categories >= 0) ?
         transactions
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, index) => {
-        const category = formattedCategories.find(c => row.category.toLowerCase() === c._id.toLowerCase())
+        const category = categories.find(c => row.category.toLowerCase() === c._id.toLowerCase())
         const {color, icon} = category
         return (
           <Row
@@ -18,6 +18,8 @@ const Rows = ({transactions, formattedCategories, page, rowsPerPage, classRoot})
           row={row}
           color={color}
           icon={icon}
+          categories={categories}
+          categoryIndex={categories.indexOf(category)}
           />
         )}) : null
         }
