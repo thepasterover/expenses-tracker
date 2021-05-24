@@ -100,7 +100,9 @@ const transactions = ({date, categoryData, session}) => {
             token={session.token}
             data={{
                 type: 'Add'
-            }} 
+            }}
+            transactions={transactions}
+            setTransactions={setTransactions} 
             />
         </>
     )

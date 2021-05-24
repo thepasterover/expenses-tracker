@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
-import {Box, Dialog, DialogTitle, DialogContent, TextField, Typography, Icon, Grid, Fab} from '@material-ui/core'
+import {Box, Dialog, DialogTitle, DialogContent, TextField, Typography, Icon, Grid, Fab, Button} from '@material-ui/core'
 import { IconButton } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
@@ -13,7 +13,8 @@ import { axiosInstance } from '../../../axios'
 
 import Category from '../Categories/Category'
 import DialogTextField  from './DialogTextField'
-import { sub } from 'date-fns'
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
+import { CategoryRounded } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AddDialog = ({open, setOpen, categories, token, data}) => {
+const AddDialog = ({open, setOpen, categories, token, data, transactions, setTransactions}) => {
     const classes = useStyles()
 
     //TODO: Setup Error Handling for Text Fields
@@ -68,10 +69,22 @@ const AddDialog = ({open, setOpen, categories, token, data}) => {
         })
 
         setOpen(false)
+
+        setTransactions([...transactions, {
+          subject: subject,
+          date: date,
+          amount: amount,
+          payment_mode: paymentMode,
+          description: description,
+          color: category.color,
+          icon: category.icon
+        }])
+
         setSubject('')
         setAmount()
         setPaymentMode('')
         setDescription('')
+
 
       } catch(err) {
         console.log(err)
@@ -100,6 +113,23 @@ const AddDialog = ({open, setOpen, categories, token, data}) => {
       } catch(err) {
         console.log(err)
       } 
+    }
+
+    const deleteTransaction = async () => {
+      try {
+        const res = await axiosInstance.post('/user/transactions/delete', {
+          transactionId: data.id,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjBhNTBiYmU1ZjA0OTMwZjkwZmYzZmExIiwiaWF0IjoxNjIxNzgwNjQwLCJleHAiOjE2MjIwMzk4NDB9.PvffwLdMLIm5DgYHilBJkdhSDFh5f2LqAcyuCWpdi5U',
+          } 
+        })
+        setOpen(false)
+      } catch(err) {
+        console.log(err)
+      }
     }
 
     let viewCatgories 
@@ -143,10 +173,20 @@ const AddDialog = ({open, setOpen, categories, token, data}) => {
                 <Box>
                   <DialogTitle id="form-dialog-title">{data.type} Transaction</DialogTitle>
                 </Box>
-                <Box>
-                  <IconButton onClick={() => setOpen(false)}>
-                    <CloseIcon />
-                  </IconButton>
+                <Box display="flex" justifyContent="flex-end">
+                  {(data.type.toLowerCase() === 'edit') && 
+                  <Box>
+                    <IconButton onClick={() => deleteTransaction()}>
+                      <DeleteOutlinedIcon 
+                      style={{color: '#c82333'}}
+                      />
+                    </IconButton>
+                  </Box>}
+                  <Box pr={1}>
+                    <IconButton onClick={() => setOpen(false)}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
               </Box>
               <Box px={4}>
