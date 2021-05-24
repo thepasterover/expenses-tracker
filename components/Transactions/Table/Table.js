@@ -14,8 +14,10 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import TablePagination from '@material-ui/core/TablePagination'
 
+import Rows from './TableRows/Rows'
 
-const transactionIcons = [
+
+const categoryIcons = [
   {icon: 'business', color: '#ff3378', category: "Rents"},
   {icon: 'school', color: '#68cfff', category: "Academics"},
   {icon: 'restaurant', color: '#69C393', category: "Food"},
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Transactions = ({ rows, date }) => {
+const Transactions = ({ rows, date, categories }) => {
     const classes = useStyles()
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -42,6 +44,16 @@ const Transactions = ({ rows, date }) => {
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     }
+
+    const formattedCategories = categoryIcons.map((t) => {
+      let category = categories.find(e => e.name === t.category.toLowerCase())
+      if(category) {
+        t._id = category._id
+      }
+      return t
+    })
+
+    
 
     return (
       <>
@@ -63,33 +75,13 @@ const Transactions = ({ rows, date }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                const transaction = transactionIcons.find(t => row.category.toLowerCase() === t.category.toLowerCase())
-                const {color, icon} = transaction
-                return (
-                  <TableRow key={index} onClick={() => console.log(index)}>
-                    <TableCell classes={{root: classes.root}}>
-                      <Box display="flex" alignItems="center">
-                        <Box>
-                          <Icon style={{color: color}} fontSize="small">{icon}</Icon>
-                        </Box>
-                        <Box ml={2}>
-                          <Typography variant="body2">
-                          {row.name}
-                          </Typography>
-                          <Typography variant="caption" style={{color: '#848E98'}}>
-                            {row.date}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </TableCell>
-                    <TableCell classes={{root: classes.root}}>{row.payment_mode}</TableCell>
-                    <TableCell classes={{root: classes.root}}>₹{row.amount}</TableCell>
-                </TableRow>
-              )
-              })}
+              <Rows 
+                transactions={rows}
+                formattedCategories={formattedCategories}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                classRoot={classes.root}
+              />
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
