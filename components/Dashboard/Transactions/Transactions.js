@@ -8,18 +8,7 @@ import TransactionCard from '@components/Dashboard/Transactions/TransactionCard'
 
 
 
-const Transactions = ({date}) => {
-    const transactions = [
-      {category: "Rents", count: 4, amount: 1800},
-      {category: "Academics", count: 4, amount: 1800},
-      {category: "Food", count: 2, amount: 1800},
-      {category: "Travel", count: 4, amount: 1800},
-      {category: "Entertainment", count: 4, amount: 1800},
-      {category: "Shopping", count: 4, amount: 1800},
-      {category: "Medicines", count: 4, amount: 1800},
-      {category: "Others", count: 4, amount: 1800},
-    ]
-
+const Transactions = ({ date, groupedTransactions, categories }) => {
     return (
       <>
         {/* Header and Nav */}
@@ -33,7 +22,26 @@ const Transactions = ({date}) => {
         </Box>
 
         {/* Main Content */}
-        {transactions.map((t, index) => <TransactionCard key={index} category={t.category} count={t.count} amount={t.amount} />)}
+        {groupedTransactions.length > 0 
+        ? 
+        groupedTransactions.map((t, index) => 
+        <TransactionCard 
+        key={index} 
+        total={t.totalAmount}
+        count={t.transactions.length}
+        categories={categories}
+        subTransactions={t.transactions} 
+        />)
+        :
+        <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="40vh"
+        >
+          <Typography variant="h6" align="center">No Transactions to show</Typography>
+        </Box>
+        }
           
       </>
     )

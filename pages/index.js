@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Head from 'next/head'
 
@@ -13,6 +13,7 @@ import {getSession, signOut} from 'next-auth/client'
 import { connect } from 'react-redux'
 
 import moment from 'moment'
+import { axiosInstance } from '../axios'
 
 const cards = [
   {number: '4008 **** **** 7533', balance: '25,889', company: 'Visa'},
@@ -21,6 +22,7 @@ const cards = [
 ]
 
 // TODO: Setup Overflow for cards
+// TODO: Connect Cards to Server
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
@@ -28,29 +30,47 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Home = ({date}) => {
+const categoryIcons = [
+  {icon: 'business', color: '#ff3378', category: "Rents"},
+  {icon: 'school', color: '#68cfff', category: "Academics"},
+  {icon: 'restaurant', color: '#69C393', category: "Food"},
+  {icon: 'flight_takeoff', color: '#fdb574', category: "Travel"},
+  {icon: 'play_circle_filled', color: '#ffe100', category: "Entertainment"},
+  {icon: 'local_mall', color: '#e4a5fd', category: "Shopping"},
+  {icon: 'medical_services', color: 'red', category: "Medicines"},
+  {icon: 'grid_view', color: '#F6C4C4', category: "Others"}
+]
+
+const Home = ({date, categories, session}) => {
   const classes = useStyles()
-
-  function usePrevious(value) {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
-  const prevDate = usePrevious(date)
-
-  const formattedPrevDate = moment(prevDate).format('MMM YYYY')
   const formattedDate = moment(date).format('MMM YYYY')
+  const [groupedTransactions, setGroupedTransaction] = useState([])
+
+  const formattedCategories = categoryIcons.map((t) => {
+    let category = categories.find(e => e.name === t.category.toLowerCase())
+    if(category) {
+      t._id = category._id
+    }
+    return t
+  })
+
+  useEffect(async () => {
+    const {data} = await axiosInstance.post('/user/transactions/categories',
+    {
+      date: date
+    }, 
+    {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': session.token,
+      }
+    })
+    setGroupedTransaction([...data])
+  }, [date])
 
   useEffect(() => {
-    console.log("did update")
-    console.log("PrevDate: " + formattedPrevDate)
-    console.log("Current Date: " + formattedDate)
-    if(formattedPrevDate !== formattedDate){
-      console.log("Changed")
-    }
-  }, [date])
+    console.log(groupedTransactions.length)
+  })
 
   return (
     <div>
@@ -65,7 +85,7 @@ const Home = ({date}) => {
           )
         })}
       </Grid>
-      <Transactions date={formattedDate} />
+      <Transactions date={formattedDate} groupedTransactions={groupedTransactions} categories={formattedCategories} />
     </div>
   )
 }
@@ -82,7 +102,7 @@ export const getServerSideProps = async(context) => {
             },
           }
     }
-    return { props: { } }
+    return { props: { session } }
   } catch(err) {
     return {props: {}}
   }
@@ -90,6 +110,7 @@ export const getServerSideProps = async(context) => {
 
 const mapStateToProps = (state) => ({
   date: state.date.date,
+  categories: state.category.categories
 })
 
 export default connect(mapStateToProps)(Home)

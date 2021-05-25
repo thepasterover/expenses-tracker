@@ -30,21 +30,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const transactionIcons = [
-  {icon: 'business', color: '#ff3378', category: "Rents", transactions: [ {name: 'Rent Given to landlord', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]},
-  {icon: 'school', color: '#68cfff', category: "Academics", transactions: [ {name: 'Exam Fees', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]},
-  {icon: 'restaurant', color: '#69C393', category: "Food", transactions: [ {name: 'Rent Given to landlord', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]},
-  {icon: 'flight_takeoff', color: '#fdb574', category: "Travel", transactions: [ {name: 'Rent Given to landlord', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]},
-  {icon: 'play_circle_filled', color: '#ffe100', category: "Entertainment", transactions: [ {name: 'Rent Given to landlord', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]},
-  {icon: 'local_mall', color: '#e4a5fd', category: "Shopping", transactions: [ {name: 'Rent Given to landlord', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]},
-  {icon: 'medical_services', color: 'red', category: "Medicines", transactions: [ {name: 'Rent Given to landlord', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]},
-  {icon: 'grid_view', color: '#F6C4C4', category: "Others", transactions: [ {name: 'Rent Given to landlord', date: new Date(), amount: '400' }, {name: 'Hello World', date:  new Date(), amount: '500'}]}
-]
-
-const TransactionCard = ({ category, count, amount}) => {
+const TransactionCard = ({ total, count, subTransactions, categories}) => {
     const classes = useStyles()
-    const transaction = transactionIcons.find(t => category.toLowerCase() === t.category.toLowerCase())
-    const {color, icon, transactions} = transaction
+    const {category, color, icon} = categories.find(c => c._id.toLowerCase() === subTransactions[0].category.toLowerCase())
 
     const [ shouldHide, setShouldHide ] = useState(true)
 
@@ -68,13 +56,21 @@ const TransactionCard = ({ category, count, amount}) => {
               </Box>
               <Box>
                 <Typography variant="h6">
-                  ₹{amount}
+                  ₹{total}
                 </Typography>
               </Box>
             </Box>
           </CardContent>
         </Card>
-        {transactions.map((t, index) => (<SubCards key={index} shouldHide={shouldHide} name={t.name} date={t.date.toString()} color={color} amount={t.amount} />))}
+        {subTransactions.map((t, index) => (
+          <SubCards 
+          key={index} 
+          shouldHide={shouldHide} 
+          subject={t.subject} 
+          date={t.date.toString()} 
+          color={color} 
+          amount={t.amount} 
+          />))}
         
       </Box>
       

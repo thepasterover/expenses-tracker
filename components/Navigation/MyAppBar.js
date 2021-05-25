@@ -63,6 +63,7 @@ const MyAppBar = ({date, setDate}) => {
                             value={selectedDate}
                             onChange={handleDateChange}
                             TextFieldComponent={() => null}
+                            maxDate={new Date()}
                         />
                     </MuiPickersUtilsProvider>
                     <Icon className={classes.navIcon} style={{cursor: 'pointer'}}>notifications</Icon>

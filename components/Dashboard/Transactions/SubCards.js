@@ -7,6 +7,8 @@ import Fade from '@material-ui/core/Fade'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 
+import { format } from 'date-fns'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     borderLeft: '3px solid #ff3378', 
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const subCards = ({shouldHide, name, date, amount, color}) => {
+const subCards = ({shouldHide, subject, date, amount, color}) => {
     const classes = useStyles()
     return (
       <Box p={3} style={{ display: shouldHide ? 'none' : '' }}>
@@ -34,10 +36,10 @@ const subCards = ({shouldHide, name, date, amount, color}) => {
             <Box display="flex" alignItems="center">
               <Box flexGrow={1} ml={1}>
                 <Typography variant="body1">
-                  <strong>{name}</strong>
+                  <strong>{subject}</strong>
                 </Typography>
                 <Typography variant="subtitle2" className={classes.subtext}>
-                  {date}
+                  { format(new Date(date), 'p, do iii') }
                 </Typography>
               </Box>
               <Box>

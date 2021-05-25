@@ -72,7 +72,7 @@ const Transactions = ({ rows, date, categories, setTransactions }) => {
         <TablePagination
           component="div"
           rowsPerPageOptions={[]}
-          count={100}
+          count={rows.length}
           page={page}
           rowsPerPage={rowsPerPage}
           onChangePage={handleChangePage} 
