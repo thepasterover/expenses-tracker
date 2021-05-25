@@ -53,7 +53,7 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
       try {
 
         const category = categories.find((f, index) => index === selectedCategoryIndex)
-        const res = await axiosInstance.post('/user/transactions/add', {
+        const {data} = await axiosInstance.post('/user/transactions/add', {
           subject: subject,
           date: date,
           amount: amount,
@@ -67,17 +67,16 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
             'Authorization': token,
           } 
         })
-
         setOpen(false)
 
         setTransactions([...transactions, {
+          _id: data.transactionId,
           subject: subject,
           date: date,
           amount: amount,
           payment_mode: paymentMode,
           description: description,
-          color: category.color,
-          icon: category.icon
+          category: category._id
         }])
 
         setSubject('')
@@ -110,6 +109,17 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjBhNTBiYmU1ZjA0OTMwZjkwZmYzZmExIiwiaWF0IjoxNjIxNzgwNjQwLCJleHAiOjE2MjIwMzk4NDB9.PvffwLdMLIm5DgYHilBJkdhSDFh5f2LqAcyuCWpdi5U',
           } 
         })
+
+        const filteredTransactions = transactions.filter(t => t._id !== data.id)
+        setTransactions([{
+          _id: data.id,
+          subject: subject,
+          date: date,
+          amount: amount,
+          payment_mode: paymentMode,
+          description: description,
+          category: category._id
+        }, ...filteredTransactions])
       } catch(err) {
         console.log(err)
       } 
@@ -117,6 +127,7 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
 
     const deleteTransaction = async () => {
       try {
+        setOpen(false)
         const res = await axiosInstance.post('/user/transactions/delete', {
           transactionId: data.id,
         },
@@ -126,7 +137,8 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjBhNTBiYmU1ZjA0OTMwZjkwZmYzZmExIiwiaWF0IjoxNjIxNzgwNjQwLCJleHAiOjE2MjIwMzk4NDB9.PvffwLdMLIm5DgYHilBJkdhSDFh5f2LqAcyuCWpdi5U',
           } 
         })
-        setOpen(false)
+        const filteredTransactions = transactions.filter(t => t._id !== data.id)
+        setTransactions(filteredTransactions)
       } catch(err) {
         console.log(err)
       }
@@ -200,6 +212,7 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
                     value={date}
                     onChange={setDate}
                     inputVariant="outlined"
+                    maxDate={new Date()}
                     />
                   </MuiPickersUtilsProvider>
 

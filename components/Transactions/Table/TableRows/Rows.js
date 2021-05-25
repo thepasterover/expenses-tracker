@@ -2,7 +2,7 @@ import React from 'react'
 
 import Row from './Row'
 
-const Rows = ({transactions, categories, page, rowsPerPage, classRoot}) => {
+const Rows = ({transactions, categories, page, rowsPerPage, classRoot, setTransactions}) => {
     return (
       <>
         {(transactions.length >= 0 || categories >= 0) ?
@@ -20,6 +20,8 @@ const Rows = ({transactions, categories, page, rowsPerPage, classRoot}) => {
           icon={icon}
           categories={categories}
           categoryIndex={categories.indexOf(category)}
+          transactions={transactions}
+          setTransactions={setTransactions}
           />
         )}) : null
         }

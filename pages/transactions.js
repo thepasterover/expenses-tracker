@@ -86,7 +86,8 @@ const transactions = ({date, categoryData, session}) => {
            rows={transactions} 
            date={formattedDate} 
            categories={formattedCategories} 
-           token={session.token} 
+           token={session.token}
+           setTransactions={setTransactions} 
            />
            
            <Fab color="primary" aria-label="add" className={classes.root} onClick={() => setOpen(true)}>
