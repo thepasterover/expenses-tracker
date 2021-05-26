@@ -6,6 +6,9 @@ import { Box, Typography, Card, CardContent, LinearProgress, Hidden } from '@mat
 
 const useStyles = makeStyles(theme => ({
     root: {
+        borderLeft: '3px solid #ff3378', 
+        borderRadius: '3px', 
+        maxHeight: '70px',
         transition: "transform 0.10s ease-in-out",
         "&:hover": {
         transform: "scale3d(1.02, 1.02, 1)" 
@@ -35,8 +38,9 @@ const WishListItem = () => {
     const classes = useStyles()
     return (
         <>
-            <Box mt={1}>
-                <Card elevation={0} className={classes.root}>
+            <Box mt={4}>
+                {/* TODO: Add a border based on status */}
+                <Card elevation={0} className={classes.root} style={{borderLeft: `3px solid #ff3378`}}>
                     <CardContent>
                         <Box display="flex" alignItems="center" justifyContent="space-between" alignContent="center" >
                             <Box flexShrink={2}>
