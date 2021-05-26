@@ -68,10 +68,6 @@ const Home = ({date, categories, session}) => {
     setGroupedTransaction([...data])
   }, [date])
 
-  useEffect(() => {
-    console.log(groupedTransactions.length)
-  })
-
   return (
     <div>
       <Head>
