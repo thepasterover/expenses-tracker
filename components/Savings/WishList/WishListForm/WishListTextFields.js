@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { 
     Box, 
@@ -11,18 +11,43 @@ import {
 } from '@material-ui/core'
 
 
-const WishListTextFields = ({type}) => {
+const WishListTextFields = ({setOpen, type, add, data, edit, change, status, setStateStatus, del}) => {
 
-    const [ subject, setSubject ] = useState('')
-    const [ totalAmount, setTotalAmount ] = useState()
-    const [ savingsAmount, setSavingsAmount ] = useState()
-    const [ currentAmount, setCurrentAmount ] = useState()
+    const [ subject, setSubject ] = useState( data.subject || '')
+    const [ totalAmount, setTotalAmount ] = useState(data.totalAmount || null)
+    const [ savingsAmount, setSavingsAmount ] = useState(data.savingsAmount || null)
+    const [ currentAmount, setCurrentAmount ] = useState(data.currentAmount || '0')
+    const [ disabled, setDisabled ] = useState(false)
+    
+
+    const onClickAdd = () => {
+        setOpen(false)
+        add(subject, totalAmount, savingsAmount)
+        setSubject()
+        setTotalAmount()
+        setSavingsAmount()
+        setCurrentAmount()
+    }
+
+    const onClickEdit = () => {
+        setOpen(false)
+        edit(data.id, subject, totalAmount, savingsAmount, currentAmount)
+    }
+
+    const onClickChange = () => {
+        setDisabled(true)
+        change(data.id)
+        setStateStatus(!status)
+        setTimeout(() => {
+            setDisabled(false)
+        }, 2000)
+    }
 
     let viewBtns
     type.toLowerCase() === 'add' ? 
     viewBtns = (
         <Box>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={onClickAdd}>
                 Add
             </Button>
         </Box>
@@ -30,17 +55,17 @@ const WishListTextFields = ({type}) => {
     viewBtns = (
         <>
             <Box>
-                <Button color="primary" variant="contained" style={{color: '#fff', backgroundColor: '#848E98'}}>
-                    Hold
+                <Button variant="contained" style={{color: '#fff', backgroundColor: '#848E98'}} onClick={onClickChange} disabled={disabled}>
+                    {status ? 'Hold' : 'Unhold'}
                 </Button>
             </Box>
             <Box>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={onClickEdit}>
                     Edit
                 </Button>
             </Box>
             <Box>
-                <Button color="error" variant="contained" style={{color: '#fff', backgroundColor: '#c82333'}}>
+                <Button variant="contained" style={{color: '#fff', backgroundColor: '#c82333'}} onClick={() => { setOpen(false); del(data.id) }}>
                     Delete
                 </Button>
             </Box>
@@ -83,7 +108,7 @@ const WishListTextFields = ({type}) => {
                     />
                 </FormControl>
             </Box>
-            { type.toLowerCase() === 'add' &&  
+            { type.toLowerCase() === 'edit' &&  
             <Box mt={2}>
                 <TextField
                 color="primary"

@@ -5,20 +5,13 @@ import WishListTextFields from './WishListTextFields'
 import {
     Box, 
     Dialog, 
-    DialogTitle, 
-    DialogContent, 
-    TextField, 
-    Typography, 
-    Icon, 
-    Grid, 
-    Fab, 
-    Button,
+    DialogTitle,
     IconButton
 } from '@material-ui/core'
 
 import CloseIcon from '@material-ui/icons/Close'
 
-const WishListFrom = ({open, setOpen, type}) => {
+const WishListFrom = ({ open, setOpen, type, data, add, edit, change, status, setStateStatus, del}) => {
     return (
         <>
             <Dialog fullScreen open={open}>
@@ -37,7 +30,17 @@ const WishListFrom = ({open, setOpen, type}) => {
                     </Box>
                 </Box>
                 <Box px={4}>
-                    <WishListTextFields type={type} />
+                    <WishListTextFields
+                    setOpen={setOpen} 
+                    type={type}
+                    data={data} 
+                    add={add} 
+                    edit={edit}
+                    change={change}
+                    status={status}
+                    setStateStatus={setStateStatus}
+                    del={del}
+                    />
                 </Box>
             </Dialog>
         </>
