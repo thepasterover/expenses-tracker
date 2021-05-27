@@ -122,7 +122,9 @@ const savings = ({ session, wishlists }) => {
 
     return (
         <>
-            <TotalSavings />
+            <TotalSavings 
+            wishLists={wishLists}
+            />
             <WishList 
             wishlists={wishLists}
             edit={editWishList}

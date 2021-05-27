@@ -19,9 +19,6 @@ const useStyles = makeStyles(theme => ({
         },
         cursor: 'pointer'
     },
-    subtext: {
-        color: '#848E98'
-    },
 }))
 
 const BorderLinearProgress = withStyles((theme) => ({
@@ -67,7 +64,7 @@ const WishListItem = ({ id, date, subject, totalAmount, savingsAmount, currentAm
                                 <Typography variant="body1">
                                    <strong>{subject}</strong>
                                 </Typography>
-                                <Typography variant="subtitle2" className={classes.subtext}>
+                                <Typography variant="subtitle2" color="secondary">
                                     ₹{kFormatter(savingsAmount)} / month
                                 </Typography>
                             </Box>
@@ -77,7 +74,7 @@ const WishListItem = ({ id, date, subject, totalAmount, savingsAmount, currentAm
                                         ₹{kFormatter(currentAmount)}
                                     </Typography>
                                     <Hidden xsDown>
-                                        <Typography variant="caption" className={classes.subtext}>
+                                        <Typography variant="caption" color="secondary">
                                             {format(new Date(date), 'PPp')}
                                         </Typography>
                                     </Hidden>
