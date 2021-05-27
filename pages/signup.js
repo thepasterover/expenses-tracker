@@ -34,7 +34,7 @@ const signup = () => {
     return (
       <>
         <Head>
-            <title>SignUp - Expenses Tracker</title>
+            <title>SignUp | Expenses Tracker</title>
         </Head>
         <Grid 
         container

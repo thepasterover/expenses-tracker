@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { useRouter } from 'next/router'
+
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'
 
@@ -29,13 +31,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const navLinks = [
+  {name: 'Dashboard', link: '/', icon: 'dashboard'}, 
+  {name: 'Transactions', link: '/transactions', icon: 'credit_card'}, 
+  {name: 'Savings', link: '/savings', icon: 'savings'}, 
+  {name: 'Profile', link: '/profile', icon: 'portrait'}
+]
+
 
 const Layout = ({children, fetchCategories}) => {
+    const router = useRouter()
     const classes = useStyles();
+    const selectedLink = navLinks.findIndex(l => l.link === router.pathname)
+    const selectedHref = navLinks.find(l => l.link === router.pathname)
     const [ session, loading ] = useSession()
 
     useEffect(() => {
-      fetchCategories()
+      try {
+        fetchCategories()
+      } catch(err) {
+        console.log(err)
+      }
     }, [])
 
 
@@ -52,19 +68,25 @@ const Layout = ({children, fetchCategories}) => {
       )
     }
 
-    
-
     return (
         <div className={classes.root}>
-        <AppBar />
-        <Drawer />
+        <AppBar 
+        title={selectedHref}
+        />
+        <Drawer 
+        links={navLinks}
+        selectedLink={selectedLink}
+        />
         <main className={classes.content}>
             <div className={classes.toolbar} />
               <Container>
                 {children}
               </Container>
         </main>
-      <BottomDrawer />
+      <BottomDrawer 
+      links={navLinks}
+      selectedLink={selectedLink}
+      />
     </div>
     )
 }

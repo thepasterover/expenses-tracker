@@ -4,6 +4,8 @@ import TotalSavings from '@components/Savings/TotalSavings'
 import WishList from '@components/Savings/WishList/WishList'
 import WishListForm from '@components/Savings/WishList/WishListForm/WishListForm'
 
+import Head from 'next/head'
+
 import { getSession } from 'next-auth/client'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -122,6 +124,9 @@ const savings = ({ session, wishlists }) => {
 
     return (
         <>
+            <Head>
+                <title>Savings | Expenses Tracker</title>
+            </Head>
             <TotalSavings 
             wishLists={wishLists}
             />

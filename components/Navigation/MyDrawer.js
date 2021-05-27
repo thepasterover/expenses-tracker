@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const MyDrawer = () => {
+const MyDrawer = ({links, selectedLink}) => {
 
     const classes = useStyles();
 
@@ -44,11 +44,11 @@ const MyDrawer = () => {
             > 
               <div className={classes.toolbar} >
                 <Grid container justify = "center" alignItems="center" direction="row" style={{ minHeight: '10vh' }}>
-                    <Typography variant="h6" color="primary"> Moneyit</Typography>
+                    <Typography variant="h6" color="primary"> Moneyit </Typography>
                 </Grid>
               </div>
               <Box pl={2}>
-                <NavItems />
+                <NavItems links={links} selectedLink={selectedLink} />
               </Box>
           </Drawer>
         </Hidden>   

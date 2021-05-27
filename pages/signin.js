@@ -15,7 +15,7 @@ const signin = () => {
     return (
       <>
         <Head>
-          <title>Sign In - Expenses Tracker</title>
+          <title>Sign In | Expenses Tracker</title>
         </Head>
         <Grid 
         container

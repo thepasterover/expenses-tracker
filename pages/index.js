@@ -75,7 +75,7 @@ const Home = ({date, categories, session}) => {
   return (
     <div>
       <Head>
-        <title>Expenses Tracker</title>
+        <title>Dashboard | Expenses Tracker</title>
       </Head>
       <button onClick={signOut}>Sign out</button>
       <Grid container className={classes.wrapper}>

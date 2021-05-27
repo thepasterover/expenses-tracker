@@ -18,8 +18,6 @@ const useStyles = makeStyles(() => ({
     '& .MuiListItemIcon-root':{
       color: '#1b1f2d',
     },
-    
-    
   },
 
 }))
@@ -46,23 +44,24 @@ const ListItem = withStyles({
   selected: {}
 })(MuiListItem)
 
-
-
-
-const NavItems = () => {
+const NavItems = ({ links, selectedLink }) => {
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState((selectedLink < 0 ? null : selectedLink))
+
+    const handlingItemClick = (event, index) => {
+      setSelectedIndex(index)
+    }
 
     return (
         <div className={classes.root}>
           <List component="nav">
-            {[{name: 'Dashboard', link: '/', icon: 'dashboard'}, {name: 'Transactions', link: '/transactions', icon: 'credit_card'}, {name: 'Savings', link: '/savings', icon: 'savings'}, {name: 'Profile', link: '/posts', icon: 'portrait'}].map((text, index) => (
+            {links.map((text, index) => (
             <Box pt={4} key={text.name}>
                 <Link href={text.link} passHref>
                     <ListItem 
                     button 
                     selected={index === selectedIndex} 
-                    onClick={() => setSelectedIndex(index)}
+                    onClick={event => handlingItemClick(event, index)}
                     style={{height: '45px'}}
                     >
                       <ListItemIcon>

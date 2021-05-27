@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
+
+import Head from 'next/head'
+
 import { axiosInstance } from '../axios'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -77,6 +80,9 @@ const transactions = ({date, categoryData, session}) => {
 
     return (
         <>
+            <Head>
+                <title>Transactions | Expenses Tracker</title>
+            </Head>
            <Table 
            rows={transactions} 
            date={formattedDate} 

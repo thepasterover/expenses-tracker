@@ -35,7 +35,7 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const MyAppBar = ({date, setDate}) => {
+const MyAppBar = ({date, setDate, title}) => {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [isOpen, setIsOpen] = useState(false)
@@ -50,7 +50,7 @@ const MyAppBar = ({date, setDate}) => {
             <AppBar position="fixed" edge="start" className={classes.appBar} color="default" elevation={0}>
                 <Toolbar>
                     <Typography variant="h5" noWrap className={classes.navTitle}>
-                        Dashboard 
+                        {title.name} 
                     </Typography>
                     <Icon onClick={() => setIsOpen(true)} style={{cursor: 'pointer'}}>today</Icon>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>

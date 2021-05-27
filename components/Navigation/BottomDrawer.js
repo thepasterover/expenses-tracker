@@ -26,9 +26,9 @@ const navItems = [
 ]
 
 
-const BottomDrawer = () => {
+const BottomDrawer = ({ links, selectedLink }) => {
     const classes = useStyles()
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(selectedLink < 0 ? null : selectedLink)
     const router = useRouter();
 
     const onLink = (href) => {
@@ -44,7 +44,7 @@ const BottomDrawer = () => {
             setValue(newValue);
           }}
           >
-            {navItems.map((item, index) => (
+            {links.map((item, index) => (
                 <BottomNavigationAction key={index} icon={<Icon> {item.icon} </Icon>} label={item.name} onClick={() => onLink(item.link)}/>
             ))}
           </BottomNavigation>
