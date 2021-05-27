@@ -55,17 +55,21 @@ const Home = ({date, categories, session}) => {
   })
 
   useEffect(async () => {
-    const {data} = await axiosInstance.post('/user/transactions/categories',
-    {
-      date: date
-    }, 
-    {
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': session.token,
-      }
-    })
-    setGroupedTransaction([...data])
+    try{
+      const {data} = await axiosInstance.post('/user/transactions/categories',
+      {
+        date: date
+      }, 
+      {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': session.token,
+        }
+      })
+      setGroupedTransaction([...data])
+    } catch(err) {
+      console.log(err)
+    }
   }, [date])
 
   return (

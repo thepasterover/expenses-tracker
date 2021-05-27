@@ -41,16 +41,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-// Previous Hook: Refernce
-// const usePrevious = (value) => {
-//     const ref = useRef();
-//     useEffect(() => {
-//       ref.current = value;
-//     });
-//     return ref.current;
-// }
-
-
 const transactions = ({date, categoryData, session}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false)
@@ -66,17 +56,22 @@ const transactions = ({date, categoryData, session}) => {
 
     const formattedDate = moment(date).format('MMM YYYY')
     useEffect(async() => {
-        const {data} = await axiosInstance.post('/user/transactions',
-        {
-          date: date
-        }, 
-        {
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': session.token,
-          }
-        })
-        setTransactions(data);
+        try{
+            const {data} = await axiosInstance.post('/user/transactions',
+            {
+            date: date
+            }, 
+            {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': session.token,
+            }
+            })
+            setTransactions(data);
+        } catch(err) {
+            console.log(err)
+        }
+        
     }, [date])
 
 

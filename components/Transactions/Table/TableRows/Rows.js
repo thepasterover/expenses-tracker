@@ -5,8 +5,7 @@ import Row from './Row'
 const Rows = ({transactions, categories, page, rowsPerPage, classRoot, setTransactions}) => {
     return (
       <>
-        {(transactions.length >= 0 || categories >= 0) ?
-        transactions
+        {transactions
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, index) => {
         const category = categories.find(c => row.category.toLowerCase() === c._id.toLowerCase())
@@ -23,7 +22,7 @@ const Rows = ({transactions, categories, page, rowsPerPage, classRoot, setTransa
           transactions={transactions}
           setTransactions={setTransactions}
           />
-        )}) : null
+        )})
         }
       </>
     )

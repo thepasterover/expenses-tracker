@@ -43,16 +43,18 @@ const Transactions = ({ rows, date, categories, setTransactions }) => {
             {date}
           </Typography>
         </Box>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell classes={{root: classes.root}}>Name</TableCell>
-                <TableCell classes={{root: classes.root}}>Payment Mode</TableCell>
-                <TableCell classes={{root: classes.root}}>Amount</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
+        {rows.length > 0 ? 
+        <>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell classes={{root: classes.root}}>Name</TableCell>
+                  <TableCell classes={{root: classes.root}}>Payment Mode</TableCell>
+                  <TableCell classes={{root: classes.root}}>Amount</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
               <Rows 
                 transactions={rows}
                 categories={categories}
@@ -68,15 +70,27 @@ const Transactions = ({ rows, date, categories, setTransactions }) => {
               )}
             </TableBody>
           </Table>
-        </TableContainer>
-        <TablePagination
-          component="div"
-          rowsPerPageOptions={[]}
-          count={rows.length}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          onChangePage={handleChangePage} 
-        />
+          </TableContainer>
+          <TablePagination
+            component="div"
+            rowsPerPageOptions={[]}
+            count={rows.length}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            onChangePage={handleChangePage} 
+          />
+        </>
+        : 
+        <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="60vh"
+        >
+          <Typography variant="h6" align="center" color="secondary">Tap '+' to add a Transaction</Typography>
+        </Box>
+      }
+        
 
       </>
     )

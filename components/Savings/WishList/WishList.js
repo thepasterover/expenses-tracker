@@ -33,7 +33,7 @@ const WishList = ({wishlists, edit, change, del}) => {
                 alignItems="center"
                 minHeight="40vh"
                 >
-                    <Typography variant="h6" align="center">Tap '+' to add a wishlist</Typography>
+                    <Typography variant="h6" align="center" color="secondary">Tap '+' to add a wishlist</Typography>
                 </Box>
                 }
         </>
