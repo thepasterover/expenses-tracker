@@ -18,7 +18,7 @@ const AccountInfo = ({theme}) => {
                         Account Information
                     </Typography>
                 </Box>
-                <TwoFields />
+                {/* <TwoFields /> */}
                 <Box mt={2}>
                     <TextField 
                     color="primary"
