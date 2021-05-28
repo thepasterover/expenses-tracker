@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-const AccountInfo = ({theme}) => {
+const AccountInfo = ({data, setFormData, update}) => {
     const classes = useStyles()
     return (
         <>
@@ -18,7 +18,11 @@ const AccountInfo = ({theme}) => {
                         Account Information
                     </Typography>
                 </Box>
-                <AccountForm />
+                <AccountForm 
+                data={data}
+                setFormData={setFormData}
+                update={update}
+                />
             </Box>
         </>
     )

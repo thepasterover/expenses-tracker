@@ -14,7 +14,7 @@ const options = {
                         password
                     })
                     if(user.data) {
-                        return  user.data
+                        return  { ...user.data.user, token: user.data.token}
                     } else {
                         return null
                     }
@@ -40,7 +40,17 @@ const options = {
         session: async (session, user, sessionToken) => {
             //  "session" is current session object
             //  below we set "user" param of "session" to value received from "jwt" callback
-            session.token = 'Bearer ' + user.user;
+            //TODO: set session.user.image = user.user.avatar
+            delete session.user.name
+            session.token = 'Bearer ' + user.user.token;
+            session.user.first_name = user.user.first_name
+            session.user.last_name = user.user.last_name
+            session.user.address = user.user.address
+            session.user.state = user.user.state
+            session.user.city = user.user.city
+            session.user.phone = user.user.phone
+            session.user.pincode = user.user.pincode
+            session.date = user.user.createdAt
             
             return Promise.resolve(session)
         }

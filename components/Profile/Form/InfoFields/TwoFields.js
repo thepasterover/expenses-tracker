@@ -31,7 +31,6 @@ const TwoFields = ({label1, label2, value1, value2, handler1, handler2, phone}) 
                         color="primary"
                         variant="outlined"
                         label={label1}
-                        inputStyle ={{width: '100%'}}
                         fullWidth
                         value={value1}
                         onChange={event => handler1(event.target.value)}
@@ -42,7 +41,6 @@ const TwoFields = ({label1, label2, value1, value2, handler1, handler2, phone}) 
                         color="primary"
                         variant="outlined"
                         label={label2}
-                        inputStyle ={{width: '100%'}}
                         fullWidth
                         value={value2}
                         onChange={event => handler2(event.target.value)}

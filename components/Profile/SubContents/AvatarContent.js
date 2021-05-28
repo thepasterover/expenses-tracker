@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const AvatarContent = () => {
+const AvatarContent = ({firstName, lastName}) => {
     const classes = useStyles()
     return (
         <>
@@ -31,7 +31,7 @@ const AvatarContent = () => {
                 <Box px={{ xs: 2, sm: 3, md: 3}} pt={{xs: 2, sm: 2, md:0, lg: 0}} className={classes.info}>
                     <Box>
                         <Typography variant="h4">
-                            Michael Scott
+                            {firstName + ' ' + lastName }
                         </Typography>
                     </Box>
                     <Box>

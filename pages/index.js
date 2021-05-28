@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import Grid from '@material-ui/core/Grid'
 import Card from '../components/Dashboard/Card'
+import TransactionChart from '@components/Dashboard/TransactionChart'
 import Transactions from '../components/Dashboard/Transactions/Transactions'
 
 import {getSession, signOut} from 'next-auth/client'
@@ -78,13 +79,15 @@ const Home = ({date, categories, session}) => {
         <title>Dashboard | Expenses Tracker</title>
       </Head>
       <button onClick={signOut}>Sign out</button>
-      <Grid container className={classes.wrapper}>
-        {cards.map((card, index) => {
+      {/* <Grid container className={classes.wrapper}> */}
+        <TransactionChart />
+        
+        {/* {cards.map((card, index) => {
           return (
             <Card number={card.number} balance={card.balance} company={card.company} key={index} index={index} />
           )
-        })}
-      </Grid>
+        })} */}
+      {/* </Grid> */}
       <Transactions date={formattedDate} groupedTransactions={groupedTransactions} categories={formattedCategories} />
     </div>
   )

@@ -2,17 +2,18 @@ import React from 'react'
 
 import Head from 'next/head'
 
-import AvatarContent from '@components/Profile/AvatarContent'
-import AccountInfo from '@components/Profile/AccountInfo'
+import { getSession } from 'next-auth/client'
 
-const profile = () => {
+import ProfileContent from '@components/Profile/ProfileContent'
+
+const profile = ({session}) => {
+    
     return (
         <>
             <Head>
                 <title>Profile | Expenses Tracker</title>
             </Head>
-            <AvatarContent />
-            <AccountInfo />  
+            <ProfileContent user={session.user} token={session.token} /> 
         </>
     )
 }
@@ -20,21 +21,20 @@ const profile = () => {
 export async function getServerSideProps(context) {
     try {
         const session = await getSession(context)
-        if (session) {
+        if (!session) {
             return {
                 redirect: {
-                    destination: '/',
-                    permanent: false,
+                  destination: '/signin',
+                  permanent: false,
                 },
-                }
+              }
         }
         return {
-            props: {  }
+            props: { session }
         }
     } catch(err) {
-        return {
-            props: { }
-        }
+        console.log(err)
+        return { props: { } }
     }
 }
 
