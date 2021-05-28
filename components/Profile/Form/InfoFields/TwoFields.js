@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-import { Box, TextField } from '@material-ui/core'
+import { Box, TextField, InputAdornment } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     field: {
@@ -13,32 +13,48 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Names = () => {
+
+let phoneProps =  (
+    <InputAdornment position="start"> +91 </InputAdornment>
+)
+
+
+const TwoFields = ({label1, label2, value1, value2, handler1, handler2, phone}) => {
     const classes = useStyles()
+
     return (
         <>
-            <Box display="flex" flexWrap="wrap">
+            <Box display="flex" flexWrap="wrap" mt={3}>
+                    
                     <Box  className={classes.field} pr={{ xs: 0, sm: 0,  md: 2}}>
                         <TextField 
                         color="primary"
                         variant="outlined"
-                        label="First Name"
+                        label={label1}
                         inputStyle ={{width: '100%'}}
                         fullWidth
+                        value={value1}
+                        onChange={event => handler1(event.target.value)}
                         />
                     </Box>
-                    <Box  className={classes.field} pl={{ xs: 0, sm: 0,  md: 2}} pt={{ xs: 3, sm: 3, md: 0 }}>
+                    <Box className={classes.field} pl={{ xs: 0, sm: 0,  md: 2}} pt={{ xs: 3, sm: 3, md: 0 }}>
                         <TextField
                         color="primary"
                         variant="outlined"
-                        label="Last Name"
+                        label={label2}
                         inputStyle ={{width: '100%'}}
                         fullWidth
+                        value={value2}
+                        onChange={event => handler2(event.target.value)}
+                        InputProps={{
+                            startAdornment: (phone ? phoneProps :  null)
+                        }}
                         />
+                        
                     </Box>
                 </Box>
         </>
     )
 }
 
-export default Names
+export default TwoFields

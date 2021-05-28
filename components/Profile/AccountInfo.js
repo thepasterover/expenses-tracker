@@ -1,4 +1,4 @@
-import TwoFields from '@components/Profile/InfoFields/TwoFields'
+import AccountForm from '@components/Profile/Form/AccountForm'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -18,15 +18,7 @@ const AccountInfo = ({theme}) => {
                         Account Information
                     </Typography>
                 </Box>
-                {/* <TwoFields /> */}
-                <Box mt={2}>
-                    <TextField 
-                    color="primary"
-                    variant="outlined"
-                    label="Email"
-                    fullWidth
-                    />
-                </Box>
+                <AccountForm />
             </Box>
         </>
     )
