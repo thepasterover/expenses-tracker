@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../theme';
-import Layout from '../layout/Layout';
+import Layout from '../layouts/Layout';
 
 import { Provider } from 'next-auth/client'
 import { wrapper } from '../store/store'
@@ -23,7 +23,6 @@ const MyApp = (props) => {
   return (
     <React.Fragment>
       <Head>
-        <title>My page</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <Provider session={pageProps.session}>
