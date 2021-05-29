@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 const Chart = dynamic(
     () => {
         return import('react-apexcharts')
@@ -9,12 +9,14 @@ const Chart = dynamic(
 )
 import { Box } from '@material-ui/core'
 
-const TransactionChart = () => {
+import { axiosInstance } from '../../axios'
+
+const TransactionChart = ({session, date}) => {
     const [ chartOptions, setChartOptions ] = useState(
         {
             series: [{
-              name: 'series1',
-              data: [31, 40, 28, 51, 42, 109, 100]
+                name: 'expenses',
+                data: []
             }],
             options: {
                 chart: {
@@ -25,6 +27,7 @@ const TransactionChart = () => {
                         show: false
                     }
                 },
+                colors: ['#ff3378'],
                 dataLabels: {
                     enabled: false
                 },
@@ -33,7 +36,6 @@ const TransactionChart = () => {
                 },
                 xaxis: {
                     type: 'datetime',
-                    categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
                 },
                 yaxis: {
                     show: false
@@ -42,14 +44,40 @@ const TransactionChart = () => {
                     x: {
                     format: 'dd/MM/yy HH:mm'
                     },
+                    marker: false
                 },
                 grid: {
-                    show: false
+                    show: true
                 }
                 
             },
         }
     )
+
+
+    useEffect(async() => {
+        try{
+            const {data} = await axiosInstance.post('/user/transactions', {
+                date: date
+            }, 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': session.token,
+                }
+            })
+            const formattedData = data.map(d => [d.date, d.amount])
+            setChartOptions({...chartOptions, 
+                series: [{
+                    name: 'expense',
+                    data: [...formattedData]
+                }]
+            })
+        }catch(err) {
+            console.log(err)
+        }
+    }, [date])
+
 
     return (
         <>

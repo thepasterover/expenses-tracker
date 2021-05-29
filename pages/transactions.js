@@ -16,7 +16,7 @@ import { getSession } from 'next-auth/client'
 
 import { connect } from 'react-redux'
 
-import moment from 'moment'
+import { format } from 'date-fns'
 
 const categoryIcons = [
     {icon: 'business', color: '#ff3378', category: "Rents"},
@@ -57,7 +57,7 @@ const transactions = ({date, categoryData, session}) => {
         return t
     })
 
-    const formattedDate = moment(date).format('MMM YYYY')
+    const formattedDate =  format(new Date(date), 'MMM yyyy')
     useEffect(async() => {
         try{
             const {data} = await axiosInstance.post('/user/transactions',

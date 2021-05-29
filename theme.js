@@ -11,13 +11,16 @@ const theme = createMuiTheme({
       main: '#848E98',
     },
     error: {
-      main: red.A400,
+      main: '#DC3545',
     },
     pink:{
         main: '#ff3378'
     },
     background: {
       default: '#fff',
+    },
+    success: {
+      main: '#28A745'
     },
   },
 });

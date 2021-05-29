@@ -14,6 +14,13 @@ const gradientStyles = [
   'linear-gradient(123deg, rgba(39,204,221,1) 69%, rgba(38,204,221,1) 100%)',
 ]
 
+// PUT THIS IN INDEX .JS TO VIEW BEAUTIFUL CARDS AND LOOP
+// const cards = [
+//   {number: '4008 **** **** 7533', balance: '25,889', company: 'Visa'},
+//   {number: '4875 **** **** 3432', balance: '55,487', company: 'Master Card'},
+//   {number: '4565 **** **** 4342', balance: '42,643', company: 'Rupay'},
+// ]
+
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.up('md')]:{

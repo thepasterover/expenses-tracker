@@ -2,34 +2,21 @@ import React, { useEffect, useState } from 'react'
 
 import Head from 'next/head'
 
-import { makeStyles } from '@material-ui/core/styles'
-
-import Grid from '@material-ui/core/Grid'
-import Card from '../components/Dashboard/Card'
+import Spendings from '@components/Dashboard/Spendings'
 import TransactionChart from '@components/Dashboard/TransactionChart'
 import Transactions from '../components/Dashboard/Transactions/Transactions'
 
-import {getSession, signOut} from 'next-auth/client'
+import { Grid } from '@material-ui/core'
+
+import {getSession} from 'next-auth/client'
 
 import { connect } from 'react-redux'
 
-import moment from 'moment'
+import { format } from 'date-fns'
 import { axiosInstance } from '../axios'
 
-const cards = [
-  {number: '4008 **** **** 7533', balance: '25,889', company: 'Visa'},
-  {number: '4875 **** **** 3432', balance: '55,487', company: 'Master Card'},
-  {number: '4565 **** **** 4342', balance: '42,643', company: 'Rupay'},
-]
 
-// TODO: Setup Overflow for cards
-// TODO: Connect Cards to Server
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    display: 'flex',
-    overflowX: 'auto'
-  }
-}))
+// TODO: Further customize chart
 
 const categoryIcons = [
   {icon: 'business', color: '#ff3378', category: "Rents"},
@@ -42,18 +29,31 @@ const categoryIcons = [
   {icon: 'grid_view', color: '#F6C4C4', category: "Others"}
 ]
 
-const Home = ({date, categories, session}) => {
-  const classes = useStyles()
-  const formattedDate = moment(date).format('MMM YYYY')
-  const [groupedTransactions, setGroupedTransaction] = useState([])
+const getTotal = (lst, key) => {
+  return lst.reduce((n, l) => n + parseInt(l[key]), 0) 
+}
 
-  const formattedCategories = categoryIcons.map((t) => {
-    let category = categories.find(e => e.name === t.category.toLowerCase())
-    if(category) {
-      t._id = category._id
+const Home = ({date, categories, session}) => {
+  const formattedDate =  format(new Date(date), 'MMM yyyy')
+  const [groupedTransactions, setGroupedTransaction] = useState([])
+  const [formattedCategories, setFormattedCategories] = useState([])
+  const [ totalSpendingThisMonth, setTotalSpendingThisMonth ] = useState(0)
+  const [ totalSpendingLastMonth, setTotalSpendingLastMonth ] = useState(0)
+  
+  useEffect(async () => {
+    let temp = []
+    if (categories.length > 0 ){
+      temp = categoryIcons.map((t) => {
+        let category = categories.find(e => e.name === t.category.toLowerCase())
+        if(category) {
+          t._id = category._id
+        }
+        return t
+      })
     }
-    return t
-  })
+    setFormattedCategories([...temp])
+  }, [categories])
+  
 
   useEffect(async () => {
     try{
@@ -67,28 +67,29 @@ const Home = ({date, categories, session}) => {
             'Authorization': session.token,
         }
       })
-      setGroupedTransaction([...data])
+      setTotalSpendingThisMonth(getTotal(data.transactions, 'totalAmount'))
+      setTotalSpendingLastMonth(data.lastMonthTotal)
+      setGroupedTransaction([...data.transactions])
     } catch(err) {
       console.log(err)
     }
+    
   }, [date])
 
   return (
-    <div>
+    <>
       <Head>
         <title>Dashboard | Expenses Tracker</title>
       </Head>
-      <Grid container className={classes.wrapper}>
-        {/* <TransactionChart /> */}
-        
-        {cards.map((card, index) => {
-          return (
-            <Card number={card.number} balance={card.balance} company={card.company} key={index} index={index} />
-          )
-        })}
+      <Spendings 
+      totalSpendingThisMonth={totalSpendingThisMonth}
+      totalSpendingLastMonth={totalSpendingLastMonth}
+      />
+      <Grid container>
+        <TransactionChart session={session} date={date} />
       </Grid>
       <Transactions date={formattedDate} groupedTransactions={groupedTransactions} categories={formattedCategories} />
-    </div>
+    </>
   )
 }
 
