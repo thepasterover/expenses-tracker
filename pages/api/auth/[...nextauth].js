@@ -40,18 +40,19 @@ const options = {
         session: async (session, user, sessionToken) => {
             //  "session" is current session object
             //  below we set "user" param of "session" to value received from "jwt" callback
-            //TODO: set session.user.image = user.user.avatar
             delete session.user.name
             session.token = 'Bearer ' + user.user.token;
-            session.user.first_name = user.user.first_name
-            session.user.last_name = user.user.last_name
-            session.user.address = user.user.address
-            session.user.state = user.user.state
-            session.user.city = user.user.city
-            session.user.phone = user.user.phone
-            session.user.pincode = user.user.pincode
-            session.date = user.user.createdAt
-            
+            session.user = {...session.user,
+                first_name: user.user.first_name,
+                last_name: user.user.last_name,
+                address: user.user.address,
+                city: user.user.city,
+                state: user.user.state,
+                phone: user.user.phone,
+                pincode: user.user.pincode,
+                date: user.user.createdAt,
+                avatar: user.user.avatar
+            }
             return Promise.resolve(session)
         }
     },

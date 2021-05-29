@@ -1,6 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-import { Box, Typography, Avatar } from '@material-ui/core'
+import { Box, Typography, Avatar, Badge } from '@material-ui/core'
+
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+
+import {axiosInstance} from '../../../axios'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,19 +18,59 @@ const useStyles = makeStyles((theme) => ({
             flexDirection: "column", 
             alignItems: "center"
         }
+    },
+    badge: {
+        cursor: 'pointer', 
+        minWidth: 27,
+        minHeight: 31,
+        borderRadius: '50%',
+        transition: 'width 5s',
+        '&:hover': {
+            minWidth: 35,
+            minHeight: 34,
+        }
     }
 }));
 
-const AvatarContent = ({firstName, lastName}) => {
+const AvatarContent = ({firstName, lastName, avatar, token}) => {
     const classes = useStyles()
+
+    const handleAvatarEdit = async(event) => {
+        let formData = new FormData()
+        formData.append('file', event.target.files[0])
+        const { data } = await axiosInstance.post('/user/profile/avatar', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                'Authorization': token,
+            }
+        })
+        console.log(data)
+    }
+
     return (
         <>
             <Box display="flex" alignItems="center" p={1} flexWrap="wrap" className={classes.root}  >
                 <Box borderRadius="50%" borderColor="primary.main" border={2} borderLeft={0} borderBottom={0} p={1} >
-                    <Avatar
-                    style={{ width: "160px", height: '160px', }}
-                    src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
-                    />
+                <input type="file" accept="image/*" id="contained-button-file" hidden onChange={event => handleAvatarEdit(event)} />
+                <label htmlFor="contained-button-file">
+                    <Badge
+                    id='badge' 
+                    overlap="circle"
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                    }}
+                    badgeContent={<CreateOutlinedIcon fontSize="small" />}
+                    color="primary"
+                    classes={{ badge: classes.badge }}                   
+                    >
+                        <Avatar
+                        id='avatar'
+                        style={{ width: "160px", height: '160px', cursor: 'pointer' }}
+                        src={`http://localhost:5000${avatar}`}
+                        />
+                    </Badge>
+                </label>
                 </Box>
                 <Box px={{ xs: 2, sm: 3, md: 3}} pt={{xs: 2, sm: 2, md:0, lg: 0}} className={classes.info}>
                     <Box>

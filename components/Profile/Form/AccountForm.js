@@ -47,6 +47,7 @@ const AccountForm = ({ data, setFormData, update }) => {
                 variant="outlined"
                 label="Email"
                 fullWidth
+                helperText="Read Only"
                 value={data.email}
                 inputProps={{
                     readOnly: true,

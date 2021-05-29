@@ -14,7 +14,8 @@ const ProfileContent = ({user, token}) => {
         city: user.city || '',
         state: user.state || '',
         pincode: user.pincode || '',
-        phone: user.phone || ''
+        phone: user.phone || '',
+        avatar: user.avatar.url
     })
 
     const updateProfile = async() => {
@@ -37,7 +38,12 @@ const ProfileContent = ({user, token}) => {
 
     return (
         <>
-            <AvatarContent firstName={formData.firstName} lastName={formData.lastName} />
+            <AvatarContent 
+            firstName={formData.firstName} 
+            lastName={formData.lastName} 
+            token={token}
+            avatar={formData.avatar}
+            />
             <AccountInfo
             data={formData}
             setFormData={setFormData}
