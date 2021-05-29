@@ -78,16 +78,15 @@ const Home = ({date, categories, session}) => {
       <Head>
         <title>Dashboard | Expenses Tracker</title>
       </Head>
-      <button onClick={signOut}>Sign out</button>
-      {/* <Grid container className={classes.wrapper}> */}
-        <TransactionChart />
+      <Grid container className={classes.wrapper}>
+        {/* <TransactionChart /> */}
         
-        {/* {cards.map((card, index) => {
+        {cards.map((card, index) => {
           return (
             <Card number={card.number} balance={card.balance} company={card.company} key={index} index={index} />
           )
-        })} */}
-      {/* </Grid> */}
+        })}
+      </Grid>
       <Transactions date={formattedDate} groupedTransactions={groupedTransactions} categories={formattedCategories} />
     </div>
   )

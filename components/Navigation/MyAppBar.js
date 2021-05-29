@@ -1,12 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+
+import Link from 'next/link'
 
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Icon from '@material-ui/core/Icon'
+import { 
+    CssBaseline, 
+    AppBar, 
+    Toolbar, 
+    Typography, 
+    Icon, 
+    Avatar, 
+    Menu,
+    MenuItem,
+    MenuList,
+    Popper,
+    Grow,
+    Paper,
+    ClickAwayListener  
+} from '@material-ui/core'
 import theme from 'theme';
+
+import { signOut } from 'next-auth/client'
 
 import { DatePicker } from '@material-ui/pickers'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
@@ -15,8 +29,6 @@ import DateFnsUtils from '@date-io/date-fns'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { setDate } from '../../store/date/action'
-
-import Button from '@material-ui/core/Button'
 
 const drawerWidth = 210;
 
@@ -32,17 +44,63 @@ const useStyles = makeStyles(() => ({
     },
     navIcon: {
         marginLeft: theme.spacing(2.5),
+    },
+    avatar: {
+        cursor: 'pointer',
+        width: 32,
+        height: 32,
+        marginLeft: theme.spacing(2.5),
     }
 }))
 
-const MyAppBar = ({date, setDate, title}) => {
+const MyAppBar = ({date, setDate, title, avatar}) => {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [isOpen, setIsOpen] = useState(false)
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
     
     const handleDateChange = (date) => {
         setDate(date)
     }
+
+    // Avatar Menu Handlers
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    
+    const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+        return;
+    }
+
+    setOpen(false);
+    };
+
+    const handleSignOut = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+        setOpen(false);
+        signOut()
+    }
+    
+    function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+        event.preventDefault();
+        setOpen(false);
+    }
+    }
+    
+      // return focus to the button when we transitioned from !open -> open
+      const prevOpen = React.useRef(open);
+      React.useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+          anchorRef.current.focus();
+        }
+    
+        prevOpen.current = open;
+      }, [open]);
 
     return (
         <>
@@ -67,6 +125,40 @@ const MyAppBar = ({date, setDate, title}) => {
                         />
                     </MuiPickersUtilsProvider>
                     <Icon className={classes.navIcon} style={{cursor: 'pointer'}}>notifications</Icon>
+                    <Avatar 
+                    src={`http://localhost:5000${avatar}`}
+                    className={classes.avatar}
+                    ref={anchorRef}
+                    aria-controls={open ? 'menu-list-grow' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                    />
+
+                    <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                            {...TransitionProps}
+                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                            >
+                        <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                            <Link href='/profile'>
+                                <MenuItem>
+                                    
+                                        Profile
+                                    
+                                </MenuItem>
+                                </Link>
+                                <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+                            </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                        </Grow>
+                    )}
+                    </Popper>
+
+
                 </Toolbar>
             </AppBar> 
         </>

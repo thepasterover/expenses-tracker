@@ -55,7 +55,7 @@ const Layout = ({children, fetchCategories}) => {
     }, [])
 
 
-    if (loading) return null
+    if (loading) return <p>loading</p>
 
     
     if(!loading && !session){
@@ -72,6 +72,7 @@ const Layout = ({children, fetchCategories}) => {
         <div className={classes.root}>
         <AppBar 
         title={selectedHref}
+        avatar={session.user.avatar.url}
         />
         <Drawer 
         links={navLinks}
