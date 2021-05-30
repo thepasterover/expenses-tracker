@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 
 import { format } from 'date-fns'
 import { axiosInstance } from '../axios'
+import { toast } from 'react-toastify'
 
 
 // TODO: Further customize chart
@@ -71,7 +72,9 @@ const Home = ({date, categories, session}) => {
       setTotalSpendingLastMonth(data.lastMonthTotal)
       setGroupedTransaction([...data.transactions])
     } catch(err) {
-      console.log(err)
+      if(err.response){
+        toast.error(err.response.data.error)
+      }
     }
     
   }, [date])

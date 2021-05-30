@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Row = ({classRoot, row, color, icon, categories, categoryIndex, transactions, setTransactions}) => {
+const Row = ({classRoot, row, color, icon, categories, categoryIndex, transactions, setTransactions, token}) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   return (
@@ -53,7 +53,8 @@ const Row = ({classRoot, row, color, icon, categories, categoryIndex, transactio
         categoryIndex: categoryIndex
       }}
       transactions={transactions}
-      setTransactions={setTransactions} 
+      setTransactions={setTransactions}
+      token={token} 
       />
     </>
   )

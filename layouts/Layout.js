@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
 
-import { useRouter } from 'next/router'
-
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container'
-
 import AppBar from '@components/Navigation/MyAppBar'
 import Drawer from '@components/Navigation/MyDrawer'
 import BottomDrawer from '@components/Navigation/BottomDrawer'
 
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
+
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { toast } from 'react-toastify'
+
 import { fetchCategories } from '../store/category/action'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {

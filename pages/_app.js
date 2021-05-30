@@ -7,6 +7,10 @@ import theme from '../theme';
 import Layout from '../layouts/Layout';
 
 import { Provider } from 'next-auth/client'
+
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import { wrapper } from '../store/store'
 
 const MyApp = (props) => {
@@ -31,6 +35,7 @@ const MyApp = (props) => {
           <CssBaseline />
           <Layout>
             <Component {...pageProps} />
+            <ToastContainer />
           </Layout>
         </ThemeProvider>
       </Provider>

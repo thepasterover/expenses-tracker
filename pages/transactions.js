@@ -48,14 +48,21 @@ const transactions = ({date, categoryData, session}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false)
     const [transactions, setTransactions] = useState([])
+    const [formattedCategories, setFormattedCategories] = useState([])
 
-    const formattedCategories = categoryIcons.map((t) => {
-        let category = categoryData.categories.find(e => e.name === t.category.toLowerCase())
-        if(category) {
-          t._id = category._id
+    useEffect(async () => {
+        let temp = []
+        if (categoryData.categories.length > 0 ){
+          temp = categoryIcons.map((t) => {
+            let category = categoryData.categories.find(e => e.name === t.category.toLowerCase())
+            if(category) {
+              t._id = category._id
+            }
+            return t
+          })
         }
-        return t
-    })
+        setFormattedCategories([...temp])
+    }, [categoryData.categories])
 
     const formattedDate =  format(new Date(date), 'MMM yyyy')
     useEffect(async() => {
@@ -87,8 +94,8 @@ const transactions = ({date, categoryData, session}) => {
            rows={transactions} 
            date={formattedDate} 
            categories={formattedCategories} 
-           token={session.token}
-           setTransactions={setTransactions} 
+           setTransactions={setTransactions}
+           token={session.token} 
            />
            
            <Fab color="primary" aria-label="add" className={classes.root} onClick={() => setOpen(true)}>

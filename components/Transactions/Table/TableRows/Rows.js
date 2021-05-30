@@ -2,7 +2,7 @@ import React from 'react'
 
 import Row from './Row'
 
-const Rows = ({transactions, categories, page, rowsPerPage, classRoot, setTransactions}) => {
+const Rows = ({transactions, categories, page, rowsPerPage, classRoot, setTransactions, token}) => {
     return (
       <>
         {transactions
@@ -21,6 +21,7 @@ const Rows = ({transactions, categories, page, rowsPerPage, classRoot, setTransa
           categoryIndex={categories.indexOf(category)}
           transactions={transactions}
           setTransactions={setTransactions}
+          token={token}
           />
         )})
         }

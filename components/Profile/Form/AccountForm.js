@@ -93,9 +93,9 @@ const AccountForm = ({ data, setFormData, update }) => {
                 <Button variant="contained" color="primary" disabled={disabled} onClick={handleSave}>
                     Save
                 </Button>
-                <Button style={{color: '#0069d9'}}>
+                {/* <Button style={{color: '#0069d9'}}>
                     Reset Password
-                </Button>
+                </Button> */}
             </Box>
         </>
     )

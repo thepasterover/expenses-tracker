@@ -15,6 +15,7 @@ import Category from '../Categories/Category'
 import DialogTextField  from './DialogTextField'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import { CategoryRounded } from '@material-ui/icons'
+import { toast } from 'react-toastify'
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -53,7 +54,7 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
       try {
 
         const category = categories.find((f, index) => index === selectedCategoryIndex)
-        const {data} = await axiosInstance.post('/user/transactions/add', {
+        const res = await axiosInstance.post('/user/transactions/add', {
           subject: subject,
           date: date,
           amount: amount,
@@ -84,9 +85,11 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
         setPaymentMode('')
         setDescription('')
 
-
+        toast.success(res.data.message)
       } catch(err) {
-        console.log(err)
+        if(err.response){
+          toast.error(err.response.data.error)
+        }
       }
     }
 
@@ -106,7 +109,7 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
         {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjBhNTBiYmU1ZjA0OTMwZjkwZmYzZmExIiwiaWF0IjoxNjIxNzgwNjQwLCJleHAiOjE2MjIwMzk4NDB9.PvffwLdMLIm5DgYHilBJkdhSDFh5f2LqAcyuCWpdi5U',
+            'Authorization': token,
           } 
         })
 
@@ -120,8 +123,11 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
           description: description,
           category: category._id
         }, ...filteredTransactions])
+        toast.success(res.data.message)
       } catch(err) {
-        console.log(err)
+        if(err.response){
+          toast.error(err.response.data.error)
+        }
       } 
     }
 
@@ -134,13 +140,16 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
         {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjBhNTBiYmU1ZjA0OTMwZjkwZmYzZmExIiwiaWF0IjoxNjIxNzgwNjQwLCJleHAiOjE2MjIwMzk4NDB9.PvffwLdMLIm5DgYHilBJkdhSDFh5f2LqAcyuCWpdi5U',
+            'Authorization': token,
           } 
         })
         const filteredTransactions = transactions.filter(t => t._id !== data.id)
         setTransactions(filteredTransactions)
+        toast.success(res.data.message)
       } catch(err) {
-        console.log(err)
+        if(err.response){
+          toast.error(err.response.data.error)
+        }
       }
     }
 

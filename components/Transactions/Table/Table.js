@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Transactions = ({ rows, date, categories, setTransactions }) => {
+const Transactions = ({ rows, date, categories, setTransactions, token }) => {
     const classes = useStyles()
     const [ page, setPage ] = useState(0)
     const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -62,6 +62,7 @@ const Transactions = ({ rows, date, categories, setTransactions }) => {
                 rowsPerPage={rowsPerPage}
                 classRoot={classes.root}
                 setTransactions={setTransactions}
+                token={token}
               />
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>

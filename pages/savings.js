@@ -14,6 +14,7 @@ import { Fab } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 
 import {axiosInstance} from '../axios'
+import { toast } from 'react-toastify'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,14 +30,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const savings = ({ session, wishlists }) => {
+const savings = ({ session, wishlists, error }) => {
     const classes = useStyles();
     const [ open, setOpen ] = useState(false)
     const [ wishLists, setWishLists ] =  useState([...wishlists])
 
+    useEffect(() => {
+        if(error){
+            toast.error(error)
+        }
+    }, [])
+
     const addWishList = async(subject, totalAmount, savingsAmount) => {
         try {
-            const { data } = await axiosInstance.post('/user/savings/add', {
+            
+            const res = await axiosInstance.post('/user/savings/add', {
                 subject: subject,
                 totalAmount: totalAmount,
                 savingsAmount: savingsAmount
@@ -56,14 +64,17 @@ const savings = ({ session, wishlists }) => {
                 status: true,
                 createdAt: new Date()
             }])
+            toast.success(res.data.message)
         } catch(err) {
-            console.log(err)
+            if(err.response) {
+                toast.error(err.response.data.error)
+            }
         }
     }
     
     const editWishList = async(wishlistId, subject, totalAmount, savingsAmount, currentAmount) => {
         try {
-            await axiosInstance.post('/user/savings/edit', {
+            const res = await axiosInstance.post('/user/savings/edit', {
                 wishlistId,
                 subject,
                 totalAmount,
@@ -76,6 +87,7 @@ const savings = ({ session, wishlists }) => {
                     'Authorization': session.token,
                 }
             })
+            toast.success(res.data.message)
             const foundWishlist = wishLists.find(w => w._id === wishlistId)
             const filteredWishLists = wishLists.filter(w => w._id !== wishlistId)
             foundWishlist.subject = subject
@@ -84,13 +96,15 @@ const savings = ({ session, wishlists }) => {
             foundWishlist.current_amount = currentAmount
             setWishLists([...filteredWishLists, foundWishlist])
         } catch(err) {
-            console.log(err)
+            if(err.response) {
+                toast.error(err.response.data.error)
+            }
         }
     }
 
     const deleteWishList = async(wishlistId) => {
         try {
-            await axiosInstance.post('/user/savings/delete', {
+            const res = await axiosInstance.post('/user/savings/delete', {
                 wishlistId
             },
             {
@@ -99,16 +113,19 @@ const savings = ({ session, wishlists }) => {
                     'Authorization': session.token,
                 }
             })
+            toast.success(res.data.message)
             const filteredWishLists = wishLists.filter(w => w._id !== wishlistId)
             setWishLists([...filteredWishLists])
         } catch(err) {
-            console.log(err)
+            if(err.response) {
+                toast.error(err.response.data.error)
+            }
         }
     }
 
     const changeStatus = async(wishlistId) => {
         try {
-            await axiosInstance.post('/user/savings/changestatus', {
+            const res = await axiosInstance.post('/user/savings/changestatus', {
                 wishlistId
             },
             {
@@ -117,6 +134,7 @@ const savings = ({ session, wishlists }) => {
                     'Authorization': session.token,
                 }
             })
+            toast.success(res.data.message)
         } catch(err) {
             console.log(err)
         }
@@ -175,8 +193,11 @@ export async function getServerSideProps(context) {
             props: { session, wishlists: data }
         }
     } catch(err) {
-        console.log(err)
-        return { props: { wishlists: [] } }
+        let error
+        if(err.response){
+            error = err.response.data.error
+        }
+        return { props: { wishlists: [], error: error || 'Something went wrong!' } }
     }
 }
 

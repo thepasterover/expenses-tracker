@@ -4,6 +4,8 @@ import { Box, Typography, Avatar, Badge } from '@material-ui/core'
 
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 
+import { toast } from 'react-toastify'
+
 import {axiosInstance} from '../../../axios'
 
 const useStyles = makeStyles((theme) => ({
@@ -36,15 +38,21 @@ const AvatarContent = ({firstName, lastName, avatar, token}) => {
     const classes = useStyles()
 
     const handleAvatarEdit = async(event) => {
-        let formData = new FormData()
-        formData.append('file', event.target.files[0])
-        const { data } = await axiosInstance.post('/user/profile/avatar', formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                'Authorization': token,
+        try {
+            let formData = new FormData()
+            formData.append('file', event.target.files[0])
+            const res = await axiosInstance.post('/user/profile/avatar', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    'Authorization': token,
+                }
+            })
+            toast.success(res.data.message)
+        } catch(err) {
+            if(err.response) {
+                toast.error(err.response.data.error)
             }
-        })
-        console.log(data)
+        }
     }
 
     return (

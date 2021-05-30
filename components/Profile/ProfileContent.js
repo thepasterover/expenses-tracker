@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import AvatarContent from '@components/Profile/SubContents/AvatarContent'
 import AccountInfo from '@components/Profile/SubContents/AccountInfo'
 
+import { toast } from 'react-toastify'
+
 import { axiosInstance } from '../../axios'
 
 const ProfileContent = ({user, token}) => {
@@ -15,32 +17,41 @@ const ProfileContent = ({user, token}) => {
         state: user.state || '',
         pincode: user.pincode || '',
         phone: user.phone || '',
-        avatar: user.avatar.url
+        avatar: user.avatar.url,
+        date: user.date
     })
 
     const updateProfile = async() => {
-        await axiosInstance.post('/user/profile/update', {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            address: formData.address,
-            city: formData.city,
-            state: formData.state,
-            pincode: formData.pincode,
-            phone: formData.phone
-        },
-        {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token,
+        try{
+            const res = await axiosInstance.post('/user/profile/update', {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                address: formData.address,
+                city: formData.city,
+                state: formData.state,
+                pincode: formData.pincode,
+                phone: formData.phone
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                }
+            })
+            toast.success(res.data.message)
+        } catch(err) {
+            if(err.response) {
+                toast.error(err.response.data.error)
             }
-        })
+        }
     }
 
     return (
         <>
             <AvatarContent 
             firstName={formData.firstName} 
-            lastName={formData.lastName} 
+            lastName={formData.lastName}
+            date={formData.date} 
             token={token}
             avatar={formData.avatar}
             />

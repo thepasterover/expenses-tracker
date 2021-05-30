@@ -22,11 +22,11 @@ const Spendings = ({ totalSpendingThisMonth, totalSpendingLastMonth }) => {
     )
     return (
         <>
-            <Box display="flex" alignItems="center">
+            <Box display="flex" alignItems="center" flexWrap="wrap">
                 <Box>
                     <Typography variant="h5" color="secondary">Total Spending: </Typography>
                 </Box>
-                <Box pl={2} pr={1}>
+                <Box pl={{ xs:1, sm:1, md:2}} pr={1}>
                     <Typography variant="h4">₹ {totalSpendingThisMonth} </Typography>
                 </Box>
                 <Box>
