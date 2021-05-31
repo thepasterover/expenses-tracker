@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import AppBar from '@components/Navigation/MyAppBar'
 import Drawer from '@components/Navigation/MyDrawer'
@@ -44,7 +44,7 @@ const navLinks = [
 const Layout = ({children, fetchCategories}) => {
     const router = useRouter()
     const classes = useStyles();
-    const selectedLink = navLinks.findIndex(l => l.link === router.pathname)
+    const [selectedLink, setSelectedLink ] = useState(navLinks.findIndex(l => l.link === router.pathname))
     const selectedHref = navLinks.find(l => l.link === router.pathname)
     const [ session, loading ] = useSession()
 
@@ -70,11 +70,13 @@ const Layout = ({children, fetchCategories}) => {
       )
     }
 
+    const [ avatarUrl, setAvatarUrl ] = useState(session.user?.avatar?.url) 
+
     return (
         <div className={classes.root}>
         <AppBar 
         title={selectedHref}
-        avatar={session.user.avatar.url}
+        avatar={avatarUrl}
         />
         <Drawer 
         links={navLinks}

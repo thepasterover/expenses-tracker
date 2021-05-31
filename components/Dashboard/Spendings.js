@@ -17,7 +17,7 @@ const Spendings = ({ totalSpendingThisMonth, totalSpendingLastMonth }) => {
     differenceView = (
         <Typography variant="subtitle1" style={{ color: '#28A745' }}>
             ₹{difference}
-            <ArrowUpwardIcon style={{fontSize: '16px'}} />
+            <ArrowDownwardIcon style={{fontSize: '16px'}} />
         </Typography>
     )
     return (

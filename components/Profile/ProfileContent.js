@@ -17,7 +17,7 @@ const ProfileContent = ({user, token}) => {
         state: user.state || '',
         pincode: user.pincode || '',
         phone: user.phone || '',
-        avatar: user.avatar.url,
+        avatar: user.avatar?.url,
         date: user.date
     })
 
