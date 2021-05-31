@@ -2,16 +2,26 @@ import React, { useState } from 'react'
 
 import Image from 'next/image'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 import {  signIn, getSession } from 'next-auth/client'
 import { Button, Divider, Grid, TextField, Typography } from '@material-ui/core'
 
 import Box from '@material-ui/core/Box'
+import { toast } from 'react-toastify'
 
 
 const signin = () => {
     const [email, setEmail] = useState('') 
     const [password, setPassword] = useState('')
+    const router = useRouter()
+
+    const signInHandler = async() => {
+      const res = await signIn('credentials', {email: email, password: password, redirect: false})
+      if (res?.error) toast.error(res.error)
+      if (res.url) router.push('/')
+    }
+
     return (
       <>
         <Head>
@@ -68,7 +78,7 @@ const signin = () => {
                 <Button 
                 color="primary" 
                 variant="contained" 
-                onClick={() => signIn('credentials', {email: email, password: password})}
+                onClick={signInHandler}
                 disableElevation
                 >Sign In</Button>
                 <Button style={{color: '#1976d2'}} size="small" inputprops={{style: {textTransform: 'capitalize'}}}>Forgot your password?</Button>

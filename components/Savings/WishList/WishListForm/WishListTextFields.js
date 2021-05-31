@@ -23,10 +23,9 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
     const onClickAdd = () => {
         setOpen(false)
         add(subject, totalAmount, savingsAmount)
-        setSubject()
-        setTotalAmount()
-        setSavingsAmount()
-        setCurrentAmount()
+        setSubject('')
+        setTotalAmount(null)
+        setSavingsAmount(null)
     }
 
     const onClickEdit = () => {

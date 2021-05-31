@@ -54,6 +54,7 @@ const ProfileContent = ({user, token}) => {
             date={formData.date} 
             token={token}
             avatar={formData.avatar}
+            date={formData.date}
             />
             <AccountInfo
             data={formData}

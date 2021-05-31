@@ -44,13 +44,14 @@ const navLinks = [
 const Layout = ({children, fetchCategories}) => {
     const router = useRouter()
     const classes = useStyles();
-    const [selectedLink, setSelectedLink ] = useState(navLinks.findIndex(l => l.link === router.pathname))
-    const selectedHref = navLinks.find(l => l.link === router.pathname)
     const [ session, loading ] = useSession()
+    const [selectedLink, setSelectedLink ] = useState(navLinks.findIndex(l => l.link === router.pathname) )
+    const selectedHref = navLinks.find(l => l.link === router.pathname) || 'Title'
+    const avatarUrl = session?.user?.avatar?.url || ''
 
     useEffect(() => {
       try {
-        fetchCategories()
+          fetchCategories()
       } catch(err) {
         console.log(err)
       }
@@ -69,8 +70,6 @@ const Layout = ({children, fetchCategories}) => {
         </main>
       )
     }
-
-    const [ avatarUrl, setAvatarUrl ] = useState(session.user?.avatar?.url) 
 
     return (
         <div className={classes.root}>

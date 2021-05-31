@@ -39,7 +39,7 @@ const savings = ({ session, wishlists, error }) => {
         if(error){
             toast.error(error)
         }
-    }, [])
+    }, [error])
 
     const addWishList = async(subject, totalAmount, savingsAmount) => {
         try {
@@ -62,7 +62,8 @@ const savings = ({ session, wishlists, error }) => {
                 savings_amount: savingsAmount,
                 current_amount: 0,
                 status: true,
-                createdAt: new Date()
+                createdAt: new Date(),
+                updatedAt: new Date()
             }])
             toast.success(res.data.message)
         } catch(err) {
@@ -150,6 +151,7 @@ const savings = ({ session, wishlists, error }) => {
             />
             <WishList 
             wishlists={wishLists}
+            setWishLists={setWishLists}
             edit={editWishList}
             change={changeStatus}
             del={deleteWishList}

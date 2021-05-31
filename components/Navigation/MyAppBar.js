@@ -108,7 +108,7 @@ const MyAppBar = ({date, setDate, title, avatar}) => {
             <AppBar position="fixed" edge="start" className={classes.appBar} color="default" elevation={0}>
                 <Toolbar>
                     <Typography variant="h5" noWrap className={classes.navTitle}>
-                        {title.name} 
+                        {title?.name}
                     </Typography>
                     <Icon onClick={() => setIsOpen(true)} style={{cursor: 'pointer'}}>today</Icon>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -144,12 +144,8 @@ const MyAppBar = ({date, setDate, title, avatar}) => {
                             <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                             <Link href='/profile'>
-                                <MenuItem>
-                                    
-                                        Profile
-                                    
-                                </MenuItem>
-                                </Link>
+                                <MenuItem>Profile</MenuItem>
+                            </Link>
                                 <MenuItem onClick={handleSignOut}>Logout</MenuItem>
                             </MenuList>
                             </ClickAwayListener>

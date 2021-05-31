@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { makeStyles } from '@material-ui/core/styles'
 
 import { Box, Typography, Avatar, Badge } from '@material-ui/core'
@@ -7,6 +9,8 @@ import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import { toast } from 'react-toastify'
 
 import {axiosInstance} from '../../../axios'
+
+import { format } from 'date-fns'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,8 +38,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const AvatarContent = ({firstName, lastName, avatar, token}) => {
+const AvatarContent = ({firstName, lastName, avatar, date, token}) => {
     const classes = useStyles()
+    const router = useRouter()
 
     const handleAvatarEdit = async(event) => {
         try {
@@ -47,6 +52,7 @@ const AvatarContent = ({firstName, lastName, avatar, token}) => {
                     'Authorization': token,
                 }
             })
+            router.reload()
             toast.success(res.data.message)
         } catch(err) {
             if(err.response) {
@@ -88,7 +94,7 @@ const AvatarContent = ({firstName, lastName, avatar, token}) => {
                     </Box>
                     <Box>
                         <Typography color="secondary" variant="subtitle1">
-                            Member since 2012 
+                            Member since { format( new Date(date), 'MMM yyyy' ) }
                         </Typography>
                     </Box>
                 </Box>

@@ -22,7 +22,7 @@ const Transactions = ({ date, groupedTransactions, categories }) => {
         </Box>
 
         {/* Main Content */}
-        {groupedTransactions.length > 0 
+        {groupedTransactions.length > 0 && categories.length > 0
         ? 
         groupedTransactions.map((t, index) => 
         <TransactionCard 

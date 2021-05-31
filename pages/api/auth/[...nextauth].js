@@ -15,13 +15,12 @@ const options = {
                     })
                     if(user.data) {
                         return  { token: user.data}
-                    } else {
-                        return null
-                    }
+                    } 
                 } catch(err) {
-                    console.log(err)
+                    if(err.response){
+                        throw new Error(err.response.data.error)
+                    }
                 }
-                
             }
         })
     ],
