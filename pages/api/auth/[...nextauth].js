@@ -19,6 +19,8 @@ const options = {
                 } catch(err) {
                     if(err.response){
                         throw new Error(err.response.data.error)
+                    } else {
+                        throw new Error('Something went wrong!')
                     }
                 }
             }

@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import Box from'@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
+import { Box, Typography  } from'@material-ui/core'
 
 
 import TransactionCard from '@components/Dashboard/Transactions/TransactionCard'
@@ -12,7 +11,7 @@ const Transactions = ({ date, groupedTransactions, categories }) => {
     return (
       <>
         {/* Header and Nav */}
-        <Box display="flex" justifyContent="space-between" mt={4} mb={-1} >
+        <Box display="flex" justifyContent="space-between" mt={4} mb={2} >
             <Typography variant="h6">
               <strong>Transactions</strong>
             </Typography>

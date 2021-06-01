@@ -81,7 +81,7 @@ const TransactionChart = ({session, date}) => {
 
     return (
         <>
-            <Box width={"100%"}>
+            <Box width={"100%"} mt={2}>
                 <Chart 
                 options={chartOptions.options}
                 series={chartOptions.series}

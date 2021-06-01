@@ -63,11 +63,13 @@ const Layout = ({children, fetchCategories}) => {
     
     if(!loading && !session){
       return (
-        <main className={classes.content}>
-          <Container>
+        // <main className={classes.content}>
+        //   <Container>
+        <div>
             {children}
-          </Container>
-        </main>
+        </div>
+        //   </Container>
+        // </main>
       )
     }
 

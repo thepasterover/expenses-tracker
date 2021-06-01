@@ -2,17 +2,18 @@ import React, { useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
-import Box from'@material-ui/core/Box'
-import Typography from '@material-ui/core/Typography'
-import Icon from '@material-ui/core/Icon'
+import { Box, Typography, Icon, Paper  } from'@material-ui/core'
 
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TablePagination from '@material-ui/core/TablePagination'
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  TablePagination,
+  TableFooter,
+} from '@material-ui/core'
 
 import Rows from './TableRows/Rows'
 
@@ -45,8 +46,8 @@ const Transactions = ({ rows, date, categories, setTransactions, token }) => {
         </Box>
         {rows.length > 0 ? 
         <>
-          <TableContainer>
-            <Table>
+          <TableContainer component={Paper}>
+            <Table style={{ minWidth: 'auto' }}>
               <TableHead>
                 <TableRow>
                   <TableCell classes={{root: classes.root}}>Name</TableCell>
@@ -70,16 +71,20 @@ const Transactions = ({ rows, date, categories, setTransactions, token }) => {
                 </TableRow>
               )}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                component="div"
+                rowsPerPageOptions={[]}
+                count={rows.length}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                onChangePage={handleChangePage} 
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
           </TableContainer>
-          <TablePagination
-            component="div"
-            rowsPerPageOptions={[]}
-            count={rows.length}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            onChangePage={handleChangePage} 
-          />
         </>
         : 
         <Box
