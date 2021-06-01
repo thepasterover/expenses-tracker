@@ -52,7 +52,7 @@ const SignInForm = () => {
                 <Hidden smDown>
                     <Box>
                         <Image
-                        src='/signin2.svg'
+                        src='/signin.svg'
                         height={520}
                         width={520}
                         />
