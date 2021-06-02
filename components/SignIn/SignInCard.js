@@ -16,7 +16,8 @@ import {
     IconButton,
     FormControl,
     InputLabel,
-    OutlinedInput
+    OutlinedInput,
+    FormHelperText
 } from '@material-ui/core'
 
 import Visibility from '@material-ui/icons/Visibility'
@@ -28,14 +29,59 @@ import { toast } from 'react-toastify'
 
 const SignInCard = () => {
     const router = useRouter()
+    const [disabled, setDisabled] = useState(true)
+    const [showPassword, setShowPassword] = useState(false)
     const [email, setEmail] = useState('') 
     const [password, setPassword] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
+    const[errors, setErrors] = useState({
+        emailError: '',
+        passwordError: ''
+    })
+    
+    const validateEmail = (email) => {
+        const pattern = /\S+@\S+\.\S+/
+        if(email === ''){
+            setErrors({...errors,
+                emailError: 'Email is required',
+            })
+            return
+        } else if (!pattern.test(email)){
+            setErrors({...errors,
+                emailError: 'Enter a valid email',
+            })
+            return
+        } else {
+            setErrors({...errors,
+                emailError: '',
+            })
+            setDisabled(false)
+            return
+        }
+    }
 
+    const validatePassword = (password) => {
+        if(password === ''){
+            setErrors({...errors,
+                passwordError: 'Password is required'
+            })
+            return
+        } else {
+            setErrors({...errors,
+                passwordError: ''
+            })
+            setDisabled(false)
+            return
+        }
+    }
+    
     const signInHandler = async() => {
-        const res = await signIn('credentials', {email: email, password: password, redirect: false})
-        if (res?.error) toast.error(res.error)
-        if (res.url) router.push('/')
+        if(errors.emailError === '' && errors.passwordError === ''){
+            const res = await signIn('credentials', {email: email, password: password, redirect: false})
+            if (res?.error) toast.error(res.error)
+            if (res.url) router.push('/')
+        } else {
+            toast.error('Please fix the errors in the form!')
+        }
     }
 
     return (
@@ -61,16 +107,24 @@ const SignInCard = () => {
                                     label="Email"
                                     value={email}
                                     onChange={event => setEmail(event.target.value)}
+                                    error={errors.emailError !== ''}
+                                    helperText={errors.emailError}
+                                    onBlur={event => validateEmail(event.target.value)}
                                     />
                                 </Box>
                                 <Box mt={2}>
-                                    <FormControl variant="outlined" fullWidth>
+                                    <FormControl 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    error={errors.passwordError !== ''}
+                                    >
                                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                         <OutlinedInput
                                         id="outlined-adornment-password"
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
                                         onChange={event => setPassword(event.target.value)}
+                                        onBlur={event => validatePassword(event.target.value)}
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
@@ -85,6 +139,7 @@ const SignInCard = () => {
                                             </InputAdornment>
                                         }
                                         />
+                                        <FormHelperText id='outlined-adornment-password'>{errors.passwordError}</FormHelperText>
                                     </FormControl>
                                 </Box>
                             </Box>
@@ -98,6 +153,7 @@ const SignInCard = () => {
                                 variant="contained" 
                                 color="primary" 
                                 style={{width: '100%', minHeight: '7vh'}}
+                                disabled={disabled}
                                 onClick={signInHandler}
                                 >Sign in</Button>
                             </Box>
