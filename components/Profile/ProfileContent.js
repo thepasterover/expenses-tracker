@@ -9,23 +9,21 @@ import { axiosInstance } from '../../axios'
 
 const ProfileContent = ({user, token}) => {
     const [ formData, setFormData ] = useState({
-        firstName: user.first_name || '',
-        lastName: user.last_name || '',
+        username: user.username || '',
         email: user.email || '',
         address: user.address || '',
         city: user.city || '',
         state: user.state || '',
         pincode: user.pincode || '',
         phone: user.phone || '',
-        avatar: user.avatar?.url,
+        avatar: user.avatar?.url ? user.avatar.url : '/public/images/avatars/default.jpg',
         date: user.date
     })
 
     const updateProfile = async() => {
         try{
             const res = await axiosInstance.post('/user/profile/update', {
-                firstName: formData.firstName,
-                lastName: formData.lastName,
+                username: formData.username,
                 address: formData.address,
                 city: formData.city,
                 state: formData.state,
@@ -49,8 +47,7 @@ const ProfileContent = ({user, token}) => {
     return (
         <>
             <AvatarContent 
-            firstName={formData.firstName} 
-            lastName={formData.lastName}
+            username={formData.username} 
             date={formData.date} 
             token={token}
             avatar={formData.avatar}

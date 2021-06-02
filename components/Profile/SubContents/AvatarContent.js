@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const AvatarContent = ({firstName, lastName, avatar, date, token}) => {
+const AvatarContent = ({username, avatar, date, token}) => {
     const classes = useStyles()
     const router = useRouter()
 
@@ -89,7 +89,7 @@ const AvatarContent = ({firstName, lastName, avatar, date, token}) => {
                 <Box px={{ xs: 2, sm: 3, md: 3}} pt={{xs: 2, sm: 2, md:0, lg: 0}} className={classes.info}>
                     <Box>
                         <Typography variant="h4">
-                            {firstName + ' ' + lastName }
+                            {username}
                         </Typography>
                     </Box>
                     <Box>

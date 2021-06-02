@@ -46,7 +46,7 @@ const SignInForm = () => {
                 <SignInCard />
 
                 <Hidden mdUp>
-                    <BottomLinks />
+                    <BottomLinks signup={false} />
                 </Hidden>
 
                 <Hidden smDown>
@@ -56,7 +56,7 @@ const SignInForm = () => {
                         height={520}
                         width={520}
                         />
-                        <BottomLinks />
+                        <BottomLinks signup={false} />
                     </Box>
                 </Hidden>
             </Box>

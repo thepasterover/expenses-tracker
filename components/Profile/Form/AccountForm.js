@@ -7,14 +7,6 @@ import { Box, TextField, Button } from '@material-ui/core'
 const AccountForm = ({ data, setFormData, update }) => {
     const [ disabled, setDisabled ] = useState(false)
 
-    const handleFirstName = (value) => {
-        setFormData({...data, firstName: value})
-    }
-
-    const handleLastName = (value) => {
-        setFormData({...data, lastName: value})
-    }
-    
     const handleCity = (value) => {
         setFormData({...data, city: value})
     }
@@ -54,14 +46,16 @@ const AccountForm = ({ data, setFormData, update }) => {
                 }}
                 />
             </Box>
-            <TwoFields
-            label1={"First Name"}
-            label2={"Last Name"}
-            value1={data.firstName}
-            value2={data.lastName}
-            handler1={handleFirstName}
-            handler2={handleLastName}
-            />
+            <Box mt={3}>
+                <TextField 
+                color="primary"
+                variant="outlined"
+                label="Username"
+                fullWidth
+                value={data.username}
+                onChange={event => { setFormData({...data, username: event.target.value}) }}
+                />
+            </Box>
             <Box mt={3}>
                 <TextField 
                 color="primary"

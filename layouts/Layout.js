@@ -47,7 +47,7 @@ const Layout = ({children, fetchCategories}) => {
     const [ session, loading ] = useSession()
     const [selectedLink, setSelectedLink ] = useState(navLinks.findIndex(l => l.link === router.pathname) )
     const selectedHref = navLinks.find(l => l.link === router.pathname) || 'Title'
-    const avatarUrl = session?.user?.avatar?.url || ''
+    const avatarUrl = session?.user?.avatar?.url ? session.user.avatar.url : '/public/images/avatars/default.jpg'
 
     useEffect(() => {
       try {
@@ -63,13 +63,9 @@ const Layout = ({children, fetchCategories}) => {
     
     if(!loading && !session){
       return (
-        // <main className={classes.content}>
-        //   <Container>
         <div>
             {children}
         </div>
-        //   </Container>
-        // </main>
       )
     }
 

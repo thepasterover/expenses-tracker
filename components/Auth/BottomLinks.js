@@ -21,40 +21,51 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         [theme.breakpoints.up('sm')]: {
-            color: theme.palette.primary.main
+            color: (signup) => signup ? '#fff' : theme.palette.primary.main
         },
         [theme.breakpoints.down('sm')]: {
-            color: '#fff',
+            color: (signup) => signup ? theme.palette.primary.main : '#fff',
         }
+    },
+    link_underline: {
+        textDecoration: 'none'
     }
 }))
 
-const BottomLinks = () => {
+const BottomLinks = ({signup}) => {
 
-    const classes = useStyles()
+    const classes = useStyles(signup)
 
     return (
         <>
             <Box className={classes.root} mt={2} px={{ xs: 4, sm: 0, md: 6}} display="flex" justifyContent="space-between" alignItems="center">
                 <Box px={{ xs:3, sm: 5, md:4 }}>
-                    <Typography variant="body2" className={classes.link}>
-                        Privacy Policy
-                    </Typography>
+                    <a href='#' className={classes.link_underline}>
+                        <Typography variant="body2" className={classes.link}>
+                            Privacy Policy
+                        </Typography>
+                    </a>
                 </Box>
                 <Box px={{ xs:3, sm: 5, md:4 }}>
-                    <Typography variant="body2" className={classes.link}>
-                        Report a Bug
-                    </Typography>
+                    <a href='https://github.com/thepasterover/expenses-tracker/issues' target='_blank' className={classes.link_underline}>
+                        <Typography variant="body2" className={classes.link}>
+                            Report a Bug
+                        </Typography>
+                    </a>
                 </Box>
                 <Box px={{ xs:3, sm: 5, md:4 }}>
-                    <IconButton className={classes.link}>
-                        <GitHubIcon />
-                    </IconButton>
+                    <a href='https://github.com/thepasterover/expenses-tracker' target='_blank' className={classes.link_underline}>
+                        <IconButton className={classes.link}>
+                            <GitHubIcon />
+                        </IconButton>
+                    </a>
                 </Box>
                 <Box px={{ xs:3, sm: 5, md:4 }}>
-                    <IconButton className={classes.link}>
-                        <TwitterIcon />
-                    </IconButton>
+                    <a href='#' className={classes.link_underline}>
+                        <IconButton className={classes.link}>
+                            <TwitterIcon />
+                        </IconButton>
+                    </a>
                 </Box>
             </Box>
         </>

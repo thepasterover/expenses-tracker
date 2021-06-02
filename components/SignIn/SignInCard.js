@@ -1,6 +1,7 @@
 import { useState } from  'react'
 
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { signIn } from 'next-auth/client'
 
 import { 
@@ -42,7 +43,7 @@ const SignInCard = () => {
             <Box>
                 <Card elevation={1} variant="outlined">
                     <CardContent>
-                        <Box p={1}>
+                        <Box p={{xs: 0, sm: 1, md: 1}}>
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Box>
                                     <Typography variant="h3">Sign In</Typography>
@@ -88,7 +89,9 @@ const SignInCard = () => {
                                 </Box>
                             </Box>
                             <Box display="flex" justifyContent="flex-end" mt={1}>
-                                <Typography variant="subtitle2" style={{color: '#0069d9'}} >Forgot password?</Typography>
+                                <Link href='#' passHref>
+                                    <Typography variant="subtitle2" style={{color: '#0069d9', cursor: 'pointer'}} >Forgot password?</Typography>
+                                </Link>
                             </Box>
                             <Box display="flex" justifyContent="center" mt={2}>
                                 <Button 
@@ -99,7 +102,14 @@ const SignInCard = () => {
                                 >Sign in</Button>
                             </Box>
                             <Box display="flex" justifyContent="center" mt={2}>
-                                <Typography variant="subtitle2" color="secondary">Not a member yet? <span style={{color: '#0069d9'}}>Register</span></Typography>
+                                <Typography variant="subtitle2" color="secondary">
+                                    Don't have an account?&nbsp;
+                                    <Link href='/signup' passHref>
+                                        <span style={{color: '#0069d9', cursor: 'pointer'}}>
+                                            Sign up
+                                        </span>
+                                    </Link>
+                                </Typography>
                             </Box>
                         </Box>
                     </CardContent>

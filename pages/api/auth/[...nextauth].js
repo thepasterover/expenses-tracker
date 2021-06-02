@@ -57,14 +57,13 @@ const options = {
                 userMe = res.data
                 session.user = {...session.user,
                     email: userMe.email,
-                    first_name: userMe.first_name,
-                    last_name: userMe.last_name,
+                    username: userMe.username,
                     address: userMe?.address,
                     city: userMe?.city,
                     state: userMe?.state,
                     phone: userMe?.phone,
                     pincode: userMe?.pincode,
-                    date: userMe?.createdAt,
+                    date: userMe.createdAt,
                     avatar: userMe?.avatar
                 }
             } 
