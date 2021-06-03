@@ -50,9 +50,9 @@ const SignUpCard = () => {
                 usernameError: 'Username cannot be greater than 20 characters!'
             })
             return
-        } else if ( username.length < 8 ){
+        } else if ( username.length < 3 ){
             setErrors({...errors,
-                usernameError: 'Username must be minimum 8 characters long!'
+                usernameError: 'Username must be minimum 3 characters long!'
             })
             return
         } else {

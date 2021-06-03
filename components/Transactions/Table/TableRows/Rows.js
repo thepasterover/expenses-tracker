@@ -5,7 +5,8 @@ import Row from './Row'
 const Rows = ({transactions, categories, page, rowsPerPage, classRoot, setTransactions, token}) => {
     return (
       <>
-        {transactions
+        { (transactions.length > 0 && categories.length > 0)
+        && transactions
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         .map((row, index) => {
         const category = categories.find(c => row.category.toLowerCase() === c._id.toLowerCase())
