@@ -32,7 +32,7 @@ const SignUpCard = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
-    const [disabled, setDisabled] = useState(true)
+    const [disabled, setDisabled] = useState(false)
     const [errors, setErrors] = useState({
         usernameError: '',
         emailError: '',
@@ -59,7 +59,6 @@ const SignUpCard = () => {
             setErrors({...errors,
                 usernameError: ''
             })
-            setDisabled(false)
         }
     }
     
@@ -80,7 +79,6 @@ const SignUpCard = () => {
             setErrors({...errors,
                 emailError: ''
             })
-            setDisabled(false)
             return
         }
     }
@@ -117,7 +115,6 @@ const SignUpCard = () => {
             setErrors({...errors,
                 passwordError: ''
             })
-            setDisabled(false)
             return
         }
     }
@@ -137,15 +134,18 @@ const SignUpCard = () => {
             setErrors({...errors,
                 confirmPasswordError: ''
             })
-            setDisabled(false)
             return
         }
     }
 
     const signUpUser = async() => {
         try {
-            if(errors.usernameError === '' && errors.emailError === '' && errors.passwordError === '' && errors.confirmPasswordError === ''){
+            if(username === '' || email === '' || password === '' || confirmPassword === ''){
+                toast.error('Please fix the errors in the form!')
+            } else if(errors.usernameError !== '' || errors.emailError !== '' || errors.passwordError !== '' || errors.confirmPasswordError !== ''){
+                toast.error('Please fix the errors in the form!')
                 setDisabled(true)
+            } else {
                 const data = await axiosInstance.post('/auth/signup', {
                     username: username,
                     email: email,
@@ -156,8 +156,6 @@ const SignUpCard = () => {
                     setDisabled(false)
                 }, 2000)
                 router.push('/signin')
-            } else {
-                toast.error('Please fix the errors in the form!')
             }
         } catch(err) {
             if(err.response){

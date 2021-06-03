@@ -29,7 +29,6 @@ import { toast } from 'react-toastify'
 
 const SignInCard = () => {
     const router = useRouter()
-    const [disabled, setDisabled] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
     const [email, setEmail] = useState('') 
     const [password, setPassword] = useState('')
@@ -54,7 +53,6 @@ const SignInCard = () => {
             setErrors({...errors,
                 emailError: '',
             })
-            setDisabled(false)
             return
         }
     }
@@ -69,18 +67,21 @@ const SignInCard = () => {
             setErrors({...errors,
                 passwordError: ''
             })
-            setDisabled(false)
             return
         }
     }
     
     const signInHandler = async() => {
-        if(errors.emailError === '' && errors.passwordError === ''){
+        if(email === '' || password === ''){
+            toast.error('Please fix the errors in the form!')
+            validateEmail(email)
+            validatePassword(password)
+        } else if(errors.emailError !== '' || errors.passwordError !== ''){
+            toast.error('Please fix the errors in the form!')
+        } else {
             const res = await signIn('credentials', {email: email, password: password, redirect: false})
             if (res?.error) toast.error(res.error)
             if (res.url) router.push('/')
-        } else {
-            toast.error('Please fix the errors in the form!')
         }
     }
 
@@ -153,7 +154,6 @@ const SignInCard = () => {
                                 variant="contained" 
                                 color="primary" 
                                 style={{width: '100%', minHeight: '7vh'}}
-                                disabled={disabled}
                                 onClick={signInHandler}
                                 >Sign in</Button>
                             </Box>
