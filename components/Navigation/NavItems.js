@@ -6,11 +6,13 @@ import Link from 'next/link'
 
 import MuiListItem from '@material-ui/core/ListItem';
 
-import List from '@material-ui/core/List';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Icon from '@material-ui/core/Icon'
-import Box from '@material-ui/core/Box'
+import {
+  List,
+  ListItemIcon,
+  ListItemText,
+  Icon,
+  Box,
+} from '@material-ui/core';
 import theme from '../../theme';
 
 const useStyles = makeStyles(() => ({

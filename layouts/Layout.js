@@ -13,8 +13,6 @@ import Container from '@material-ui/core/Container'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { toast } from 'react-toastify'
-
 import { fetchCategories } from '../store/category/action'
 
 

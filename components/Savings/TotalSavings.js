@@ -57,7 +57,9 @@ const TotalSavings = ({wishLists}) => {
                         </Box>
                         <Box px={{xs: 0, sm: 3, md: 4}}>
                             <Typography variant="subtitle1">
-                                ₹{inf.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {index === 1 && <span >/ month</span>}
+                                <strong>
+                                ₹{inf.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 
+                                </strong> {index === 1 && <span >/ month</span>}
                             </Typography>
                         </Box>
                     </Box>

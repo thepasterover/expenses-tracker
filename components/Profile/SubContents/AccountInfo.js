@@ -1,15 +1,8 @@
 import AccountForm from '@components/Profile/Form/AccountForm'
 
-import { makeStyles } from '@material-ui/core/styles'
-
-import { Box, Typography, TextField } from '@material-ui/core'
-
-const useStyles = makeStyles((theme) => ({
-    
-}));
+import { Box, Typography } from '@material-ui/core'
 
 const AccountInfo = ({data, setFormData, update}) => {
-    const classes = useStyles()
     return (
         <>
             <Box p={1} mt={3}>
