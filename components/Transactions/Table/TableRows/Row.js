@@ -9,7 +9,8 @@ import Dialog from '../../Dialog/Dialog'
 
 const useStyles = makeStyles((theme) => ({
   row: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    overflow: 'scroll'
   }
 }));
 
@@ -22,7 +23,7 @@ const Row = ({classRoot, row, color, icon, categories, categoryIndex, transactio
         <TableCell classes={{root: classRoot}}>
           <Box display="flex" alignItems="center">
             <Box>
-              <Icon style={{color: color}} fontSize="small">{icon}</Icon>
+              <Icon style={{color: color, fontSize: 28}}>{icon}</Icon>
             </Box>
             <Box ml={2}>
               <Typography variant="body2">

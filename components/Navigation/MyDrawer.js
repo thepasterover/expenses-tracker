@@ -43,8 +43,10 @@ const MyDrawer = ({links, selectedLink}) => {
             anchor="left"
             > 
               <div className={classes.toolbar} >
-                <Grid container justify = "center" alignItems="center" direction="row" style={{ minHeight: '10vh' }}>
-                    <Typography variant="h6" color="primary"> Moneyit </Typography>
+                <Grid container justify = "center" alignItems="center" direction="row" style={{ minHeight: '1vh' }}>
+                  <Box mt={4}>
+                    <Typography variant="h5" color="primary" style={{fontFamily: 'Montserrat'}}> Expendit </Typography>
+                  </Box>
                 </Grid>
               </div>
               <Box pl={2}>

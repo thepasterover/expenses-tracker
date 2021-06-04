@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title_text: {
         color: '#fff', 
-        fontFamily: 'Georgia, serif',
+        fontFamily: 'Montserrat',
         [theme.breakpoints.up('sm')]: {
             fontSize: 32
         },

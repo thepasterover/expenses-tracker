@@ -6,6 +6,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../theme';
 import Layout from '../layouts/Layout';
 
+import '../styles/globals.css'
+
 import { Provider } from 'next-auth/client'
 
 import { ToastContainer } from 'react-toastify'

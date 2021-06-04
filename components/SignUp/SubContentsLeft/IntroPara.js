@@ -6,7 +6,7 @@ const IntroPara = () => {
     return (
         <>
             <Box mt={5}>
-                <Typography variant="h3" style={{color: '#fff'}}>
+                <Typography variant="h3" style={{color: '#fff', fontFamily: 'Montserrat', fontWeight: 500}}>
                 A Brilliant way to 
                 <Typewriter 
                 onInit={(typewriter)=> {

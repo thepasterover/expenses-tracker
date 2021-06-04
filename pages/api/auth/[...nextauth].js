@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+import { toast } from 'react-toastify'
 
 import { axiosInstance } from '../../../axios'
 
@@ -48,23 +49,29 @@ const options = {
             session.token = 'Bearer ' + user.user.token;
             let userMe
             if(user.user?.token){
-                const res = await axiosInstance.get('/auth/user/me', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + user.user.token,
+                try {
+                    const res = await axiosInstance.get('/auth/user/me', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + user.user.token,
+                        }
+                    })
+                    userMe = res.data
+                    session.user = {...session.user,
+                        email: userMe.email,
+                        username: userMe.username,
+                        address: userMe?.address,
+                        city: userMe?.city,
+                        state: userMe?.state,
+                        phone: userMe?.phone,
+                        pincode: userMe?.pincode,
+                        date: userMe.createdAt,
+                        avatar: userMe?.avatar
                     }
-                })
-                userMe = res.data
-                session.user = {...session.user,
-                    email: userMe.email,
-                    username: userMe.username,
-                    address: userMe?.address,
-                    city: userMe?.city,
-                    state: userMe?.state,
-                    phone: userMe?.phone,
-                    pincode: userMe?.pincode,
-                    date: userMe.createdAt,
-                    avatar: userMe?.avatar
+                } catch(err) {
+                    if(err.response){
+                        toast.error('User could not be loaded!')
+                    }
                 }
             } 
             

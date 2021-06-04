@@ -46,8 +46,8 @@ const Transactions = ({ rows, date, categories, setTransactions, token }) => {
         </Box>
         {rows.length > 0 ? 
         <>
-          <TableContainer component={Paper}>
-            <Table style={{ minWidth: 'auto' }}>
+          <TableContainer>
+            <Table>
               <TableHead>
                 <TableRow>
                   <TableCell classes={{root: classes.root}}>Name</TableCell>
