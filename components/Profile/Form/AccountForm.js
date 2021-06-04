@@ -203,7 +203,7 @@ const AccountForm = ({ data, setFormData, update }) => {
             validator1={validatePincode}
             validator2={validatePhone}
             />
-            <Box display="flex" justifyContent="space-around" mt={3}>
+            <Box display="flex" justifyContent="space-around" mt={4}>
                 <Button variant="contained" color="primary" disabled={disabled} onClick={handleSave}>
                     Save
                 </Button>

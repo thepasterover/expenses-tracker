@@ -6,7 +6,7 @@ const AccountInfo = ({data, setFormData, update}) => {
     return (
         <>
             <Box p={1} mt={3}>
-                <Box mb={3}>
+                <Box mb={4}>
                     <Typography variant="h5">
                         Account Information
                     </Typography>

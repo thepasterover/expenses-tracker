@@ -63,7 +63,7 @@ const AvatarContent = ({username, avatar, date, token}) => {
 
     return (
         <>
-            <Box display="flex" alignItems="center" p={1} flexWrap="wrap" className={classes.root}  >
+            <Box display="flex" alignItems="center" p={1} mt={2} mb={4} flexWrap="wrap" className={classes.root}  >
                 <Box borderRadius="50%" borderColor="primary.main" border={2} borderLeft={0} borderBottom={0} p={1} >
                 <input type="file" accept="image/*" id="contained-button-file" hidden onChange={event => handleAvatarEdit(event)} />
                 <label htmlFor="contained-button-file">

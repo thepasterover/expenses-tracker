@@ -334,7 +334,7 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
                   <Typography variant="subtitle1">
                     <strong>Select Category</strong>
                   </Typography>
-                  <Box mt={2}>
+                  <Box mt={2} mb={12}>
                     <Grid container>
                         {viewCatgories}
                     </Grid>
