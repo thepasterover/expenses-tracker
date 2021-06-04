@@ -81,7 +81,7 @@ const AvatarContent = ({username, avatar, date, token}) => {
                         <Avatar
                         id='avatar'
                         style={{ width: "160px", height: '160px', cursor: 'pointer' }}
-                        src={`http://localhost:5000${avatar}`}
+                        src={`https://expenditserver.herokuapp.com${avatar}`}
                         />
                     </Badge>
                 </label>

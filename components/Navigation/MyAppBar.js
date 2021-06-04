@@ -126,7 +126,7 @@ const MyAppBar = ({date, setDate, title, avatar}) => {
                     </MuiPickersUtilsProvider>
                     <Icon className={classes.navIcon} style={{cursor: 'pointer'}}>notifications</Icon>
                     <Avatar 
-                    src={`http://localhost:5000${avatar}`}
+                    src={`https://expenditserver.herokuapp.com${avatar}`}
                     className={classes.avatar}
                     ref={anchorRef}
                     aria-controls={open ? 'menu-list-grow' : undefined}

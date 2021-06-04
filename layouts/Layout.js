@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { fetchCategories } from '../store/category/action'
+import { toast } from 'react-toastify';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +52,9 @@ const Layout = ({children, fetchCategories}) => {
       try {
           fetchCategories()
       } catch(err) {
-        console.log(err)
+        if(session){
+          toast.error('Categories could not be loaded. Please refresh the page or check your internet connection!')
+        }
       }
     }, [])
 
