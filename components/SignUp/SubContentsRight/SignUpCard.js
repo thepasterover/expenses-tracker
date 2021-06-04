@@ -169,7 +169,7 @@ const SignUpCard = () => {
 
     return (
         <>
-            <Box>
+            <Box mt={2}>
                 <Box p={{xs: 0, sm: 1, md: 1}}>
                     <Box display="flex" flexDirection="column" alignItems="center">
                         <Box>

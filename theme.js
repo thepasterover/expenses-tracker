@@ -23,6 +23,9 @@ const theme = createMuiTheme({
       main: '#28A745'
     },
   },
+  typography: {
+    fontFamily: ['Inter', 'Roboto', 'sans-serif']
+  }
 });
 
 export default theme;
