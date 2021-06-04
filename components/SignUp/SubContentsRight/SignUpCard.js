@@ -141,7 +141,7 @@ const SignUpCard = () => {
     const signUpUser = async() => {
         try {
             if(username === '' || email === '' || password === '' || confirmPassword === ''){
-                toast.error('Please fix the errors in the form!')
+                toast.error('Please fill the form!')
             } else if(errors.usernameError !== '' || errors.emailError !== '' || errors.passwordError !== '' || errors.confirmPasswordError !== ''){
                 toast.error('Please fix the errors in the form!')
                 setDisabled(true)
@@ -169,14 +169,14 @@ const SignUpCard = () => {
 
     return (
         <>
-            <Box mt={2}>
+            <Box>
                 <Box p={{xs: 0, sm: 1, md: 1}}>
                     <Box display="flex" flexDirection="column" alignItems="center">
                         <Box>
-                            <Typography variant="h3">Sign Up</Typography>
+                            <Typography variant="h4">Sign Up</Typography>
                         </Box>
                         <Box pt={1}>
-                            <Typography variant="body1" color="secondary">Get on track to your finanical independence</Typography>
+                            <Typography variant="subtitle2" color="secondary">Get on track to your finanical independence</Typography>
                         </Box>
                     </Box>
                     <Box mt={3}>
@@ -187,10 +187,9 @@ const SignUpCard = () => {
                             fullWidth
                             label="Username"
                             value={username}
-                            onChange={event => setUsername(event.target.value)}
+                            onChange={event => {setUsername(event.target.value); validateUsername(event.target.value)}}
                             error={errors.usernameError !== ''}
                             helperText={errors.usernameError}
-                            onBlur={event => validateUsername(event.target.value)}
                             />
                         </Box>
                         <Box mt={2}>
@@ -200,21 +199,19 @@ const SignUpCard = () => {
                             fullWidth
                             label="Email"
                             value={email}
-                            onChange={event => setEmail(event.target.value)}
+                            onChange={event => {setEmail(event.target.value); validateEmail(event.target.value)}}
                             error={errors.emailError !== ''}
                             helperText={errors.emailError}
-                            onBlur={event => validateEmail(event.target.value)}
                             />
                         </Box>
-                        <Box mt={2} style={{maxWidth: '315px'}}>
+                        <Box mt={2} style={{maxWidth: '330px'}}>
                             <FormControl variant="outlined" fullWidth error={errors.passwordError !== ''}>
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
                                 id="outlined-adornment-password"
                                 type={showPassword ? 'text' : 'password'}
                                 value={password}
-                                onChange={event => setPassword(event.target.value)}
-                                onBlur={event => validatePassword(event.target.value)}
+                                onChange={event => {setPassword(event.target.value); validatePassword(event.target.value)}}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -239,8 +236,7 @@ const SignUpCard = () => {
                                 id="outlined-adornment-confirm-password"
                                 type={showPassword ? 'text' : 'password'}
                                 value={confirmPassword}
-                                onChange={event => setConfirmPassword(event.target.value)}
-                                onBlur={event => validateConfirmPassword(event.target.value)}
+                                onChange={event => {setConfirmPassword(event.target.value); validateConfirmPassword(event.target.value)}}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -258,17 +254,17 @@ const SignUpCard = () => {
                                 <FormHelperText id='outlined-adornment-confirm-password'>{errors.confirmPasswordError}</FormHelperText>
                             </FormControl>
                         </Box>
-                        <Box display="flex" justifyContent="center" mt={3}>
+                        <Box display="flex" justifyContent="center" mt={2}>
                             <Button 
                             variant="contained" 
                             color="primary" 
-                            style={{width: '100%', minHeight: '7vh'}}
+                            style={{width: '100%', minHeight: '5vh'}}
                             disabled={disabled}
                             onClick={signUpUser}
                             >Sign Up</Button>
                         </Box>
                         <Box display="flex" justifyContent="center" mt={2}>
-                            <Typography color="secondary">
+                            <Typography color="secondary" variant="subtitle2">
                                 Already have an account?&nbsp;
                                 <Link href='/signin' passHref>
                                         <span style={{color: '#0069d9', cursor: 'pointer'}}>

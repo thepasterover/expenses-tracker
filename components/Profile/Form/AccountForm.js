@@ -163,10 +163,9 @@ const AccountForm = ({ data, setFormData, update }) => {
                 label="Username"
                 fullWidth
                 value={data.username}
-                onChange={event => { setFormData({...data, username: event.target.value}) }}
+                onChange={event => { setFormData({...data, username: event.target.value}); validateUsername(event.target.value) }}
                 error={errors.usernameError !== ''}
                 helperText={errors.usernameError}
-                onBlur={event => validateUsername(event.target.value)}
                 />
             </Box>
             <Box mt={3}>

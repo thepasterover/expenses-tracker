@@ -33,10 +33,9 @@ const TwoFields = ({label1, label2, value1, value2, handler1, handler2, phone, e
                         label={label1}
                         fullWidth
                         value={value1}
-                        onChange={event => handler1(event.target.value)}
+                        onChange={event => {handler1(event.target.value); validator1(event.target.value)}}
                         error={errorText1 !== ''}
                         helperText={errorText1}
-                        onBlur={event => validator1(event.target.value)}
                         />
                     </Box>
                     <Box className={classes.field} pl={{ xs: 0, sm: 0,  md: 2}} pt={{ xs: 3, sm: 3, md: 0 }}>
@@ -46,13 +45,12 @@ const TwoFields = ({label1, label2, value1, value2, handler1, handler2, phone, e
                         label={label2}
                         fullWidth
                         value={value2}
-                        onChange={event => handler2(event.target.value)}
+                        onChange={event => {handler2(event.target.value); validator2(event.target.value)}}
                         InputProps={{
                             startAdornment: (phone ? phoneProps :  null)
                         }}
                         error={errorText2 !== ''}
                         helperText={errorText2}
-                        onBlur={event => validator2(event.target.value)}
                         />
                         
                     </Box>

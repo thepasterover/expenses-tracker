@@ -14,8 +14,7 @@ const DialogTextField = ({errorText, label, value, handler, helperErrorText, val
                 color="primary"
                 variant="outlined"
                 value={value || ""}
-                onChange={event => handler(event.target.value)}
-                onBlur={event => validator(event.target.value)}
+                onChange={event => {handler(event.target.value); validator(event.target.value)}}
                 />
             </Box>
         </>

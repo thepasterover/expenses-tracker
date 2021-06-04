@@ -45,7 +45,7 @@ const Layout = ({children, fetchCategories}) => {
     const classes = useStyles();
     const [ session, loading ] = useSession()
     const [selectedLink, setSelectedLink ] = useState(navLinks.findIndex(l => l.link === router.pathname) )
-    const selectedHref = navLinks.find(l => l.link === router.pathname) || 'Title'
+    const selectedTitle = navLinks.find(l => l.link === router.pathname) || 'Title'
     const avatarUrl = session?.user?.avatar?.url ? session.user.avatar.url : '/public/images/avatars/default.jpg'
 
     useEffect(() => {
@@ -73,7 +73,7 @@ const Layout = ({children, fetchCategories}) => {
     return (
         <div className={classes.root}>
         <AppBar 
-        title={selectedHref}
+        title={selectedTitle}
         avatar={avatarUrl}
         />
         <Drawer 

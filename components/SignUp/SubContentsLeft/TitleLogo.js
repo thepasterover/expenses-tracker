@@ -4,8 +4,6 @@ import { Box, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     title_text: {
-        
-        fontFamily: 'Montserrat',
         [theme.breakpoints.up('sm')]: {
             fontSize: 32,
             color: '#fff', 

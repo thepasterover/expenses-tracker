@@ -133,13 +133,11 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
     const addTransaction = async() => {
       try {
         if(subject === '' || amount === '' || paymentMode === ''){
-          toast.error('Please fix the erros in the form!')
-          validateSubject(subject)
-          validateAmount(amount)
-          validatePaymentMode(paymentMode)
+          toast.error('Please fill up the form properly!')
         } else if(errors.subjectError !== '' || errors.amountError !== '' || errors.paymentModeError !== ''){
           toast.error('Please fix the erros in the form!')
         } else {
+          setOpen(false)
           const category = categories.find((f, index) => index === selectedCategoryIndex)
           const res = await axiosInstance.post('/user/transactions/add', {
             subject: subject,
@@ -155,10 +153,8 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
               'Authorization': token,
             } 
           })
-          setOpen(false)
-
           setTransactions([...transactions, {
-            _id: data.transactionId,
+            _id: res.data.transactionId,
             subject: subject,
             date: date,
             amount: amount,
@@ -230,7 +226,6 @@ const AddDialog = ({open, setOpen, categories, token, data, transactions, setTra
 
     const deleteTransaction = async () => {
       try {
-        
         setOpen(false)
         const res = await axiosInstance.post('/user/transactions/delete', {
           transactionId: data.id,

@@ -74,7 +74,7 @@ const SignInCard = () => {
     
     const signInHandler = async() => {
         if(email === '' || password === ''){
-            toast.error('Please fix the errors in the form!')
+            toast.error('Please fill the form!')
             validateEmail(email)
             validatePassword(password)
         } else if(errors.emailError !== '' || errors.passwordError !== ''){
@@ -86,7 +86,9 @@ const SignInCard = () => {
                 toast.error(res.error)
                 setDisabled(false)
             }
-            if (res.url) router.push('/')
+            if (res.url) {
+                router.push('/')
+            }
         }
     }
 
@@ -98,10 +100,10 @@ const SignInCard = () => {
                         <Box p={{xs: 0, sm: 1, md: 1}}>
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <Box>
-                                    <Typography variant="h3">Sign In</Typography>
+                                    <Typography variant="h4">Sign In</Typography>
                                 </Box>
                                 <Box pt={1}>
-                                    <Typography variant="body1" color="secondary">One step closer to your financial independence!</Typography>
+                                    <Typography variant="subtitle2" color="secondary">One step closer to your financial independence!</Typography>
                                 </Box>
                             </Box>
                             <Box mt={3}>
@@ -112,10 +114,9 @@ const SignInCard = () => {
                                     fullWidth
                                     label="Email"
                                     value={email}
-                                    onChange={event => setEmail(event.target.value)}
+                                    onChange={event => { setEmail(event.target.value); validateEmail(event.target.value) }}
                                     error={errors.emailError !== ''}
                                     helperText={errors.emailError}
-                                    onBlur={event => validateEmail(event.target.value)}
                                     />
                                 </Box>
                                 <Box mt={2}>
@@ -129,7 +130,7 @@ const SignInCard = () => {
                                         id="outlined-adornment-password"
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
-                                        onChange={event => setPassword(event.target.value)}
+                                        onChange={event => {setPassword(event.target.value); validatePassword(event.target.value)}}
                                         onBlur={event => validatePassword(event.target.value)}
                                         endAdornment={
                                             <InputAdornment position="end">
@@ -158,7 +159,7 @@ const SignInCard = () => {
                                 <Button 
                                 variant="contained" 
                                 color="primary" 
-                                style={{width: '100%', minHeight: '7vh'}}
+                                style={{width: '100%', minHeight: '5vh'}}
                                 onClick={signInHandler}
                                 disabled={disabled}
                                 >Sign in</Button>

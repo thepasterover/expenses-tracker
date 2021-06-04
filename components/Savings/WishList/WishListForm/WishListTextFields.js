@@ -125,29 +125,23 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
 
     const onClickAdd = () => {
         if(subject === '' || totalAmount === '' || savingsAmount === ''){
-            toast.error('Please fix the errors in the form!')
-            validateSubject(subject)
-            validateTotalAmount(totalAmount)
-            validateSavingsAmount(savingsAmount)
+            toast.error('Please fill up the form properly!')
         } else if(errors.subjectError !== '' || errors.totalAmountError !== '' || errors.savingAmountError !== ''){
             toast.error('Please fix the errors in the form!')
         } else {
             setOpen(false)
             add(subject, totalAmount, savingsAmount)
             setSubject('')
-            setTotalAmount(null)
-            setSavingsAmount(null)
+            setTotalAmount('')
+            setSavingsAmount('')
         }
     }
 
     const onClickEdit = () => {
         if(subject === '' || totalAmount === '' || savingsAmount === '' || currentAmount === ''){
-            toast.error('Please fix the errors in the form!')
-            validateSubject(subject)
-            validateTotalAmount(totalAmount)
-            validateSavingsAmount(savingsAmount)
-            validateCurrentAmount(currentAmount)
-        } else if(errors.subjectError !== '' || errors.totalAmountError !== '' || errors.savingAmountError !== '' || errors.currentAmountError){
+            toast.error('Please fill up the form properly!')
+        } else if(errors.subjectError !== '' || errors.totalAmountError !== '' || errors.currentAmountError !== ''){
+            console.log((errors.savingAmountError !== '' ))
             toast.error('Please fix the errors in the form!')
         } else {
             setOpen(false)
@@ -203,10 +197,9 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
                 fullWidth
                 label="Subject"
                 value={subject || ""}
-                onChange={event => setSubject(event.target.value)}
+                onChange={event => {setSubject(event.target.value); validateSubject(event.target.value)}}
                 error={errors.subjectError !== ''}
                 helperText={errors.subjectError}
-                onBlur={event => validateSubject(event.target.value)}
                 />
             </Box>
             <Box mt={2}>
@@ -216,10 +209,9 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
                 fullWidth
                 label="Total Amount"
                 value={totalAmount || ""}
-                onChange={event => setTotalAmount(event.target.value)}
+                onChange={event => {setTotalAmount(event.target.value); validateTotalAmount(event.target.value)}}
                 error={errors.totalAmountError !== ''}
                 helperText={errors.totalAmountError}
-                onBlur={event => validateTotalAmount(event.target.value)}
                 />
             </Box>
             <Box mt={2}>
@@ -232,8 +224,7 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
                             <InputAdornment position="end">/ month</InputAdornment>
                         }
                         value={savingsAmount || ""}
-                        onChange={event => setSavingsAmount(event.target.value)}
-                        onBlur={event => validateSavingsAmount(event.target.value)}
+                        onChange={event => {setSavingsAmount(event.target.value); validateSavingsAmount(event.target.value)}}
                     />
                 </FormControl>
                 <FormHelperText id='outlined-adornment-savings-amount' style={{color :'red'}}>{errors.savingsAmountError}</FormHelperText>
@@ -246,10 +237,9 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
                 fullWidth
                 label="Current Amount"
                 value={currentAmount || ""}
-                onChange={event => setCurrentAmount(event.target.value)}
+                onChange={event => {setCurrentAmount(event.target.value); validateCurrentAmount(event.target.value)}}
                 error={errors.currentAmountError !== ''}
                 helperText={errors.currentAmountError}
-                onBlur={event => validateCurrentAmount(event.target.value)}
                 />
             </Box>}
             

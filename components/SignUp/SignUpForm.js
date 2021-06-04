@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
             background: '#fff',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             alignItems: 'center',
         }
     }

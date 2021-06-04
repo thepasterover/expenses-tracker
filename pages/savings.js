@@ -56,7 +56,7 @@ const savings = ({ session, wishlists, error }) => {
                 }
             })
             setWishLists([...wishLists, {
-                _id: data.wishListId,
+                _id: res.data.wishListId,
                 subject: subject,
                 total_amount: totalAmount,
                 savings_amount: savingsAmount,
@@ -137,7 +137,9 @@ const savings = ({ session, wishlists, error }) => {
             })
             toast.success(res.data.message)
         } catch(err) {
-            console.log(err)
+            if(err.response) {
+                toast.error(err.response.data.error)
+            }
         }
     }
 
