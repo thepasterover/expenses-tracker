@@ -44,27 +44,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const transactions = ({date, categoryData, session}) => {
+const transactions = ({date, categories, session}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false)
     const [transactions, setTransactions] = useState([])
-    const [formattedCategories, setFormattedCategories] = useState([])
-
-    useEffect(async () => {
-        let temp = []
-        if (categoryData.categories.length > 0 ){
-          temp = categoryIcons.map((t) => {
-            let category = categoryData.categories.find(e => e.name === t.category.toLowerCase())
-            if(category) {
-              t._id = category._id
-            }
-            return t
-          })
-        }
-        setFormattedCategories([...temp])
-    }, [categoryData.categories])
-
     const formattedDate =  format(new Date(date), 'MMM yyyy')
+
     useEffect(async() => {
         try{
             const {data} = await axiosInstance.post('/user/transactions',
@@ -82,7 +67,7 @@ const transactions = ({date, categoryData, session}) => {
             console.log(err)
         }
         
-    }, [date])
+    }, [formattedDate])
 
 
     return (
@@ -93,7 +78,7 @@ const transactions = ({date, categoryData, session}) => {
            <Table 
            rows={transactions} 
            date={formattedDate} 
-           categories={formattedCategories} 
+           categories={categories} 
            setTransactions={setTransactions}
            token={session.token} 
            />
@@ -105,7 +90,7 @@ const transactions = ({date, categoryData, session}) => {
             <Dialog 
             open={open} 
             setOpen={setOpen} 
-            categories={formattedCategories} 
+            categories={categories} 
             token={session.token}
             data={{
                 type: 'Add'
@@ -139,7 +124,7 @@ export async function getServerSideProps(context) {
 
 const mapStateToProps = (state) => ({
     date: state.date.date,
-    categoryData: state.category
+    categories: state.category.categories
 })
 
 export default connect(mapStateToProps)(transactions)

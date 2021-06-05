@@ -37,23 +37,8 @@ const getTotal = (lst, key) => {
 const Home = ({date, categories, session}) => {
   const formattedDate =  format(new Date(date), 'MMM yyyy')
   const [groupedTransactions, setGroupedTransaction] = useState([])
-  const [formattedCategories, setFormattedCategories] = useState([])
   const [ totalSpendingThisMonth, setTotalSpendingThisMonth ] = useState(0)
   const [ totalSpendingLastMonth, setTotalSpendingLastMonth ] = useState(0)
-  
-  useEffect(async () => {
-    let temp = []
-    if (categories.length > 0 ){
-      temp = categoryIcons.map((t) => {
-        let category = categories.find(e => e.name === t.category.toLowerCase())
-        if(category) {
-          t._id = category._id
-        }
-        return t
-      })
-    }
-    setFormattedCategories([...temp])
-  }, [categories])
   
 
   useEffect(async () => {
@@ -77,7 +62,7 @@ const Home = ({date, categories, session}) => {
       }
     }
     
-  }, [date])
+  }, [formattedDate])
 
   return (
     <>
@@ -91,7 +76,7 @@ const Home = ({date, categories, session}) => {
       <Grid container>
         <TransactionChart session={session} date={date} />
       </Grid>
-      <Transactions date={formattedDate} groupedTransactions={groupedTransactions} categories={formattedCategories} />
+      <Transactions date={formattedDate} groupedTransactions={groupedTransactions} categories={categories} />
     </>
   )
 }

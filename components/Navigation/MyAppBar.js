@@ -56,7 +56,7 @@ const useStyles = makeStyles(() => ({
 
 const MyAppBar = ({date, setDate, title, avatar, setNav}) => {
     const classes = useStyles();
-    const [selectedDate, setSelectedDate] = useState(new Date())
+    const [selectedDate, setSelectedDate] = useState(date)
     const [isOpen, setIsOpen] = useState(false)
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
