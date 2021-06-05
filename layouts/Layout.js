@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { fetchCategories } from '../store/category/action'
+import { setNav } from '../store/nav/action'
 import { toast } from 'react-toastify';
 
 
@@ -40,12 +41,12 @@ const navLinks = [
 ]
 
 
-const Layout = ({children, fetchCategories}) => {
+const Layout = ({children, fetchCategories, title, index, setNav}) => {
     const router = useRouter()
     const classes = useStyles();
     const [ session, loading ] = useSession()
-    const [selectedLink, setSelectedLink ] = useState(navLinks.findIndex(l => l.link === router.pathname) )
-    const selectedTitle = navLinks.find(l => l.link === router.pathname) || 'Title'
+    const selectedIndex = index || navLinks.findIndex(l => l.link === router.pathname)
+    const selectedTitle = title || navLinks.find(l => l.link === router.pathname)?.name || 'Error'
     const avatarUrl = session?.user?.avatar?.url ? session.user.avatar.url : '/public/images/avatars/default.jpg'
 
     useEffect(() => {
@@ -72,13 +73,16 @@ const Layout = ({children, fetchCategories}) => {
 
     return (
         <div className={classes.root}>
+          
         <AppBar 
         title={selectedTitle}
         avatar={avatarUrl}
+        setNav={setNav}
         />
         <Drawer 
         links={navLinks}
-        selectedLink={selectedLink}
+        selectedIndex={selectedIndex}
+        setNav={setNav}
         />
         <main className={classes.content}>
             <div className={classes.toolbar} />
@@ -88,16 +92,23 @@ const Layout = ({children, fetchCategories}) => {
         </main>
       <BottomDrawer 
       links={navLinks}
-      selectedLink={selectedLink}
+      selectedIndex={selectedIndex}
+      setNav={setNav}
       />
     </div>
     )
 }
 
+const mapStateToProps = (state) => ({
+  title: state.nav.title,
+  index: state.nav.index
+})
+
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCategories: bindActionCreators(fetchCategories, dispatch),
+    setNav: bindActionCreators(setNav, dispatch),
   }
 }
 
-export default connect(null, mapDispatchToProps)(Layout)
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)

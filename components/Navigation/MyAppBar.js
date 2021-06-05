@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { makeStyles } from '@material-ui/core/styles';
 import { 
@@ -53,12 +54,13 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const MyAppBar = ({date, setDate, title, avatar}) => {
+const MyAppBar = ({date, setDate, title, avatar, setNav}) => {
     const classes = useStyles();
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [isOpen, setIsOpen] = useState(false)
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+    const router = useRouter()
     
     const handleDateChange = (date) => {
         setDate(date)
@@ -86,21 +88,27 @@ const MyAppBar = ({date, setDate, title, avatar}) => {
     }
     
     function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
-        event.preventDefault();
-        setOpen(false);
-    }
-    }
-    
-      // return focus to the button when we transitioned from !open -> open
-      const prevOpen = React.useRef(open);
-      React.useEffect(() => {
-        if (prevOpen.current === true && open === false) {
-          anchorRef.current.focus();
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
         }
+    }
+
+    const handleProfileClick = () => {
+        console.log("He")
+        setNav('Profile', 3)
+        router.push('/profile')
+    }
     
-        prevOpen.current = open;
-      }, [open]);
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+        anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+    }, [open]);
 
     return (
         <>
@@ -108,7 +116,7 @@ const MyAppBar = ({date, setDate, title, avatar}) => {
             <AppBar position="fixed" edge="start" className={classes.appBar} color="default" elevation={0}>
                 <Toolbar>
                     <Typography variant="h5" noWrap className={classes.navTitle}>
-                        {title?.name}
+                        {title}
                     </Typography>
                     <Icon onClick={() => setIsOpen(true)} style={{cursor: 'pointer'}}>today</Icon>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -143,9 +151,7 @@ const MyAppBar = ({date, setDate, title, avatar}) => {
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                            <Link href='/profile'>
-                                <MenuItem>Profile</MenuItem>
-                            </Link>
+                                <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                                 <MenuItem onClick={handleSignOut}>Logout</MenuItem>
                             </MenuList>
                             </ClickAwayListener>

@@ -46,12 +46,11 @@ const ListItem = withStyles({
   selected: {}
 })(MuiListItem)
 
-const NavItems = ({ links, selectedLink }) => {
-  const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = useState((selectedLink < 0 ? null : selectedLink))
+const NavItems = ({ links, selectedIndex, setNav }) => {
+    const classes = useStyles();
 
-    const handlingItemClick = (event, index) => {
-      setSelectedIndex(index)
+    const handlingItemClick = (text, index) => {
+      setNav(text.name, index)
     }
 
     return (
@@ -63,7 +62,7 @@ const NavItems = ({ links, selectedLink }) => {
                     <ListItem 
                     button 
                     selected={index === selectedIndex} 
-                    onClick={event => handlingItemClick(event, index)}
+                    onClick={event => handlingItemClick(text, index)}
                     style={{height: '45px'}}
                     >
                       <ListItemIcon>

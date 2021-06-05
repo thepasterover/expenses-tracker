@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const MyDrawer = ({links, selectedLink}) => {
+const MyDrawer = ({links, selectedIndex, setNav}) => {
 
     const classes = useStyles();
 
@@ -50,7 +50,7 @@ const MyDrawer = ({links, selectedLink}) => {
                 </Grid>
               </div>
               <Box pl={2}>
-                <NavItems links={links} selectedLink={selectedLink} />
+                <NavItems links={links} selectedIndex={selectedIndex} setNav={setNav} />
               </Box>
           </Drawer>
         </Hidden>   

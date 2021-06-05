@@ -74,7 +74,6 @@ const Transactions = ({ rows, date, categories, setTransactions, token }) => {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                component="div"
                 rowsPerPageOptions={[]}
                 count={rows.length}
                 page={page}

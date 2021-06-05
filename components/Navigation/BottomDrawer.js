@@ -18,34 +18,28 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const navItems = [
-  {name: 'Dashboard', link: '/', icon: 'dashboard'}, 
-  {name: 'Transactions', link: '/transactions', icon: 'credit_card'}, 
-  {name: 'Savings', link: '/posts', icon: 'savings'}, 
-  {name: 'Profile', link: '/posts', icon: 'portrait'}
-]
 
 
-const BottomDrawer = ({ links, selectedLink }) => {
+const BottomDrawer = ({ links, selectedIndex, setNav }) => {
     const classes = useStyles()
-    const [value, setValue] = useState(selectedLink < 0 ? null : selectedLink)
     const router = useRouter();
 
-    const onLink = (href) => {
-      router.push(href);
+    const onLink = (item, index) => {
+      setNav(item.name, index)
+      router.push(item.link)
     };
     return (
         <>
         <Hidden smUp>
           <BottomNavigation
-          value={value} 
+          value={selectedIndex} 
           className={classes.root} 
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
+          // onChange={(event, newValue) => {
+          //   setValue(newValue);
+          // }}
           >
             {links.map((item, index) => (
-                <BottomNavigationAction key={index} icon={<Icon> {item.icon} </Icon>} label={item.name} onClick={() => onLink(item.link)}/>
+                <BottomNavigationAction key={index} icon={<Icon> {item.icon} </Icon>} label={item.name} onClick={() => onLink(item, index)}/>
             ))}
           </BottomNavigation>
         </Hidden>

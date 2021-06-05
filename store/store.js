@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 
 import date from './date/reducer'
 import category from './category/reducer'
+import nav from './nav/reducer'
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -15,7 +16,8 @@ const bindMiddleware = (middleware) => {
 
 const combinedReducer = combineReducers({
     date,
-    category
+    category,
+    nav
 })
 
 const reducer = (state, action) => {
