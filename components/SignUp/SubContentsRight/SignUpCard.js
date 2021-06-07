@@ -209,6 +209,7 @@ const SignUpCard = () => {
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
                                 id="outlined-adornment-password"
+                                label="Password"
                                 type={showPassword ? 'text' : 'password'}
                                 value={password}
                                 onChange={event => {setPassword(event.target.value); validatePassword(event.target.value)}}
@@ -234,6 +235,7 @@ const SignUpCard = () => {
                                 <InputLabel htmlFor="outlined-adornment-confirm-password">ConfirmPassword</InputLabel>
                                 <OutlinedInput
                                 id="outlined-adornment-confirm-password"
+                                label="Confirm Password"
                                 type={showPassword ? 'text' : 'password'}
                                 value={confirmPassword}
                                 onChange={event => {setConfirmPassword(event.target.value); validateConfirmPassword(event.target.value)}}

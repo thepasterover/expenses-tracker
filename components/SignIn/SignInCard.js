@@ -128,6 +128,7 @@ const SignInCard = () => {
                                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                         <OutlinedInput
                                         id="outlined-adornment-password"
+                                        label="Password"
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
                                         onChange={event => {setPassword(event.target.value); validatePassword(event.target.value)}}

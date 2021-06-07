@@ -93,7 +93,7 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
             return
         } else {
             setErrors({...errors, 
-                savingAmountError: ''
+                savingsAmountError: ''
             })
             return
         }
@@ -219,6 +219,7 @@ const WishListTextFields = ({setOpen, type, add, data, edit, change, status, set
                     <InputLabel htmlFor="outlined-adornment-savings-amount">Savings Amount</InputLabel>
                     <OutlinedInput 
                         id="outlined-adornment-password"
+                        label="Savings Amount"
                         fullWidth
                         endAdornment={
                             <InputAdornment position="end">/ month</InputAdornment>
