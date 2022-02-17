@@ -87,7 +87,7 @@ const SignInCard = () => {
                 setDisabled(false)
             }
             if (res.url) {
-                router.push('/')
+                router.push('/dashboard')
             }
         }
     }

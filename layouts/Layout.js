@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const navLinks = [
-  {name: 'Dashboard', link: '/', icon: 'dashboard'}, 
+  {name: 'Dashboard', link: '/dashboard', icon: 'dashboard'}, 
   {name: 'Transactions', link: '/transactions', icon: 'credit_card'}, 
   {name: 'Savings', link: '/savings', icon: 'savings'}, 
   {name: 'Profile', link: '/profile', icon: 'portrait'}
